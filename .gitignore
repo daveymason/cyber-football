@@ -1,0 +1,13 @@
+# Node / Vite
+node_modules/
+dist/
+
+# Rust / Tauri build output
+src-tauri/target/
+src-tauri/gen/
+target/
+
+# Logs & misc
+*.log
+.env*
+.DS_Store
