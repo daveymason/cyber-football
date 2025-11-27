@@ -1,0 +1,191 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #0a0a0a;
+  color: #00ff00;
+  font-family: 'Courier New', monospace;
+  min-height: 100vh;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+.screen {
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  text-shadow: 0 0 10px #00ff00;
+}
+
+/* Team Select */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.team-card {
+  background: #111;
+  border: 2px solid;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.team-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px currentColor;
+}
+
+.team-card h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.team-card .country {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.team-card .focus {
+  color: #00ff00;
+  font-size: 0.8rem;
+  margin-top: 10px;
+}
+
+/* Locker Room */
+.versus {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin: 40px 0;
+}
+
+.team-roster {
+  background: #111;
+  padding: 20px;
+  border: 1px solid #333;
+}
+
+.team-roster h2 {
+  margin-bottom: 15px;
+}
+
+.team-roster ul {
+  list-style: none;
+}
+
+.team-roster li {
+  padding: 5px 0;
+  color: #aaa;
+}
+
+.vs {
+  font-size: 3rem;
+  align-self: center;
+  color: #ff0000;
+  text-shadow: 0 0 10px #ff0000;
+}
+
+.kick-off-btn {
+  display: block;
+  margin: 0 auto;
+  padding: 20px 60px;
+  font-size: 1.5rem;
+  background: #00ff00;
+  color: #000;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+}
+
+.kick-off-btn:hover {
+  background: #00cc00;
+  box-shadow: 0 0 30px #00ff00;
+}
+
+/* Match Feed */
+.match-feed {
+  background: #000;
+}
+
+.scoreboard {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  font-size: 1.5rem;
+  padding: 20px;
+  border-bottom: 1px solid #333;
+}
+
+.score {
+  color: #fff;
+  font-weight: bold;
+}
+
+.feed {
+  height: 60vh;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.feed p {
+  padding: 5px 0;
+  animation: fadeIn 0.3s;
+}
+
+.feed p.goal {
+  color: #ffff00;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.game-over {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #000;
+  border: 3px solid #00ff00;
+  padding: 50px;
+  text-align: center;
+}
+
+.game-over h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.final-score {
+  font-size: 4rem;
+  color: #fff;
+  margin-bottom: 30px;
+}
+
+.game-over button {
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  background: #00ff00;
+  color: #000;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
