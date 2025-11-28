@@ -6,7 +6,7 @@ const FLAG_EMOJI = {
   Brazil: '🇧🇷', France: '🇫🇷', 'Saudi Arabia': '🇸🇦', Poland: '🇵🇱',
   Argentina: '🇦🇷', Netherlands: '🇳🇱', Morocco: '🇲🇦', Australia: '🇦🇺',
   Spain: '🇪🇸', Canada: '🇨🇦', Senegal: '🇸🇳', Serbia: '🇷🇸',
-  China: '🇨🇳', Egypt: '🇪🇬', Portugal: '🇵🇹', Ghana: '🇬🇭',
+  China: '🇨🇳', Egypt: '🇪🇬', Ireland: '🇮🇪', Ghana: '🇬🇭',
   Russia: '🇷🇺', Switzerland: '🇨🇭', Colombia: '🇨🇴', Tunisia: '🇹🇳',
   India: '🇮🇳', Sweden: '🇸🇪', Uruguay: '🇺🇾', Cameroon: '🇨🇲',
 }

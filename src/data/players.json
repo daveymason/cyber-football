@@ -15055,10 +15055,10 @@
     },
     {
       "id": "aeaf011a-d32f-4bdb-a600-5f26f43f2ea9",
-      "firstName": "Santiago",
-      "lastName": "Oliveira",
-      "displayName": "Santiago Oliveira",
-      "nation": "Portugal",
+      "firstName": "Connor",
+      "lastName": "Byrne",
+      "displayName": "Connor Byrne",
+      "nation": "Ireland",
       "birth_year": 2050,
       "position": "GK",
       "preferred_foot": "Left",
@@ -15078,11 +15078,11 @@
       },
       "overall": 74,
       "potential": 82,
-      "portrait_key": "seed-santiago-oliveira-2050",
+      "portrait_key": "seed-connor-byrne-2050",
       "history": [
         {
           "season": "2074",
-          "club": "Portugal",
+          "club": "Ireland",
           "apps": 0,
           "goals": 9,
           "assists": 7
@@ -15093,10 +15093,10 @@
     },
     {
       "id": "4fec289d-2784-4d15-84be-cf959562d8e7",
-      "firstName": "Duarte",
-      "lastName": "Silva",
-      "displayName": "Duarte Silva",
-      "nation": "Portugal",
+      "firstName": "Cian",
+      "lastName": "Walsh",
+      "displayName": "Cian Walsh",
+      "nation": "Ireland",
       "birth_year": 2054,
       "position": "DEF",
       "preferred_foot": "Right",
@@ -15116,11 +15116,11 @@
       },
       "overall": 80,
       "potential": 81,
-      "portrait_key": "seed-duarte-silva-2054",
+      "portrait_key": "seed-cian-walsh-2054",
       "history": [
         {
           "season": "2074",
-          "club": "Portugal",
+          "club": "Ireland",
           "apps": 27,
           "goals": 4,
           "assists": 7
@@ -15131,10 +15131,10 @@
     },
     {
       "id": "5496fbfc-7e94-420e-a879-0df84c92d91e",
-      "firstName": "João",
-      "lastName": "Oliveira",
-      "displayName": "João Oliveira",
-      "nation": "Portugal",
+      "firstName": "Finn",
+      "lastName": "Doyle",
+      "displayName": "Finn Doyle",
+      "nation": "Ireland",
       "birth_year": 2050,
       "position": "DEF",
       "preferred_foot": "Right",
@@ -15154,11 +15154,11 @@
       },
       "overall": 80,
       "potential": 95,
-      "portrait_key": "seed-joão-oliveira-2050",
+      "portrait_key": "seed-finn-doyle-2050",
       "history": [
         {
           "season": "2074",
-          "club": "Portugal",
+          "club": "Ireland",
           "apps": 8,
           "goals": 14,
           "assists": 4
@@ -15169,10 +15169,10 @@
     },
     {
       "id": "585f1a5f-0c58-426d-b757-817e3aa4584d",
-      "firstName": "Tomás",
-      "lastName": "Sousa",
-      "displayName": "Tomás Sousa",
-      "nation": "Portugal",
+      "firstName": "Riley",
+      "lastName": "Walsh",
+      "displayName": "Riley Walsh",
+      "nation": "Ireland",
       "birth_year": 2051,
       "position": "DEF",
       "preferred_foot": "Right",
@@ -15192,11 +15192,11 @@
       },
       "overall": 79,
       "potential": 88,
-      "portrait_key": "seed-tomás-sousa-2051",
+      "portrait_key": "seed-riley-walsh-2051",
       "history": [
         {
           "season": "2074",
-          "club": "Portugal",
+          "club": "Ireland",
           "apps": 27,
           "goals": 9,
           "assists": 9
@@ -15207,10 +15207,10 @@
     },
     {
       "id": "182e765b-b9b6-480a-840e-f127c150ca7d",
-      "firstName": "Martim",
-      "lastName": "Pereira",
-      "displayName": "Martim Pereira",
-      "nation": "Portugal",
+      "firstName": "Callum",
+      "lastName": "Kelly",
+      "displayName": "Callum Kelly",
+      "nation": "Ireland",
       "birth_year": 2053,
       "position": "DEF",
       "preferred_foot": "Right",
@@ -15230,11 +15230,11 @@
       },
       "overall": 71,
       "potential": 73,
-      "portrait_key": "seed-martim-pereira-2053",
+      "portrait_key": "seed-callum-kelly-2053",
       "history": [
         {
           "season": "2074",
-          "club": "Portugal",
+          "club": "Ireland",
           "apps": 10,
           "goals": 10,
           "assists": 2
@@ -15245,10 +15245,10 @@
     },
     {
       "id": "694cc033-4de3-4ad7-bcad-9ac53c962fc8",
-      "firstName": "Santiago",
-      "lastName": "Santos",
-      "displayName": "Santiago Santos",
-      "nation": "Portugal",
+      "firstName": "Eoin",
+      "lastName": "Murphy",
+      "displayName": "Eoin Murphy",
+      "nation": "Ireland",
       "birth_year": 2054,
       "position": "DEF",
       "preferred_foot": "Left",
@@ -15268,11 +15268,11 @@
       },
       "overall": 76,
       "potential": 91,
-      "portrait_key": "seed-santiago-santos-2054",
+      "portrait_key": "seed-eoin-murphy-2054",
       "history": [
         {
           "season": "2074",
-          "club": "Portugal",
+          "club": "Ireland",
           "apps": 27,
           "goals": 5,
           "assists": 9
@@ -15283,10 +15283,10 @@
     },
     {
       "id": "685c1d27-d2f7-421b-8caa-cabb724e050d",
-      "firstName": "Santiago",
-      "lastName": "Santos",
-      "displayName": "Santiago Santos",
-      "nation": "Portugal",
+      "firstName": "Connor",
+      "lastName": "Doherty",
+      "displayName": "Connor Doherty",
+      "nation": "Ireland",
       "birth_year": 2049,
       "position": "MID",
       "preferred_foot": "Left",
@@ -15306,11 +15306,11 @@
       },
       "overall": 74,
       "potential": 79,
-      "portrait_key": "seed-santiago-santos-2049",
+      "portrait_key": "seed-connor-doherty-2049",
       "history": [
         {
           "season": "2074",
-          "club": "Portugal",
+          "club": "Ireland",
           "apps": 13,
           "goals": 13,
           "assists": 4
@@ -15321,10 +15321,10 @@
     },
     {
       "id": "c7039568-915c-4350-b751-d80d07439cf6",
-      "firstName": "Duarte",
-      "lastName": "Sousa",
-      "displayName": "Duarte Sousa",
-      "nation": "Portugal",
+      "firstName": "Darragh",
+      "lastName": "Walsh",
+      "displayName": "Darragh Walsh",
+      "nation": "Ireland",
       "birth_year": 2054,
       "position": "MID",
       "preferred_foot": "Right",
@@ -15344,11 +15344,11 @@
       },
       "overall": 80,
       "potential": 85,
-      "portrait_key": "seed-duarte-sousa-2054",
+      "portrait_key": "seed-darragh-walsh-2054",
       "history": [
         {
           "season": "2074",
-          "club": "Portugal",
+          "club": "Ireland",
           "apps": 18,
           "goals": 12,
           "assists": 9
@@ -15359,10 +15359,10 @@
     },
     {
       "id": "9bf44fe5-c206-4349-98d4-e703de9ebe78",
-      "firstName": "Rodrigo",
-      "lastName": "Fernandes",
-      "displayName": "Rodrigo Fernandes",
-      "nation": "Portugal",
+      "firstName": "Jack",
+      "lastName": "Lynch",
+      "displayName": "Jack Lynch",
+      "nation": "Ireland",
       "birth_year": 2056,
       "position": "MID",
       "preferred_foot": "Right",
@@ -15382,11 +15382,11 @@
       },
       "overall": 77,
       "potential": 87,
-      "portrait_key": "seed-rodrigo-fernandes-2056",
+      "portrait_key": "seed-jack-lynch-2056",
       "history": [
         {
           "season": "2074",
-          "club": "Portugal",
+          "club": "Ireland",
           "apps": 0,
           "goals": 8,
           "assists": 3
@@ -15397,10 +15397,10 @@
     },
     {
       "id": "48997628-4614-47a4-8726-1d92ce775bd0",
-      "firstName": "Martim",
-      "lastName": "Martins",
-      "displayName": "Martim Martins",
-      "nation": "Portugal",
+      "firstName": "Riley",
+      "lastName": "Ryan",
+      "displayName": "Riley Ryan",
+      "nation": "Ireland",
       "birth_year": 2048,
       "position": "MID",
       "preferred_foot": "Right",
@@ -15420,11 +15420,11 @@
       },
       "overall": 80,
       "potential": 87,
-      "portrait_key": "seed-martim-martins-2048",
+      "portrait_key": "seed-riley-ryan-2048",
       "history": [
         {
           "season": "2074",
-          "club": "Portugal",
+          "club": "Ireland",
           "apps": 28,
           "goals": 4,
           "assists": 10
@@ -15435,10 +15435,10 @@
     },
     {
       "id": "2c7ad896-fac1-4c34-adca-6e55ca491977",
-      "firstName": "Santiago",
-      "lastName": "Rodrigues",
-      "displayName": "Santiago Rodrigues",
-      "nation": "Portugal",
+      "firstName": "Declan",
+      "lastName": "O'Connor",
+      "displayName": "Declan O'Connor",
+      "nation": "Ireland",
       "birth_year": 2055,
       "position": "MID",
       "preferred_foot": "Right",
@@ -15458,11 +15458,11 @@
       },
       "overall": 81,
       "potential": 87,
-      "portrait_key": "seed-santiago-rodrigues-2055",
+      "portrait_key": "seed-declan-o'connor-2055",
       "history": [
         {
           "season": "2074",
-          "club": "Portugal",
+          "club": "Ireland",
           "apps": 13,
           "goals": 6,
           "assists": 0
@@ -15473,10 +15473,10 @@
     },
     {
       "id": "16056634-60b7-416c-aa29-0c4618e3e0b0",
-      "firstName": "Gabriel",
-      "lastName": "Pereira",
-      "displayName": "Gabriel Pereira",
-      "nation": "Portugal",
+      "firstName": "Cian",
+      "lastName": "Kelly",
+      "displayName": "Cian Kelly",
+      "nation": "Ireland",
       "birth_year": 2057,
       "position": "MID",
       "preferred_foot": "Right",
@@ -15496,11 +15496,11 @@
       },
       "overall": 76,
       "potential": 91,
-      "portrait_key": "seed-gabriel-pereira-2057",
+      "portrait_key": "seed-cian-kelly-2057",
       "history": [
         {
           "season": "2074",
-          "club": "Portugal",
+          "club": "Ireland",
           "apps": 3,
           "goals": 11,
           "assists": 2
@@ -15511,10 +15511,10 @@
     },
     {
       "id": "e8695d1b-2b64-4f92-9b5a-9bc7c2ed4988",
-      "firstName": "Gabriel",
-      "lastName": "Rodrigues",
-      "displayName": "Gabriel Rodrigues",
-      "nation": "Portugal",
+      "firstName": "Patrick",
+      "lastName": "Sweeney",
+      "displayName": "Patrick Sweeney",
+      "nation": "Ireland",
       "birth_year": 2057,
       "position": "FW",
       "preferred_foot": "Right",
@@ -15534,11 +15534,11 @@
       },
       "overall": 79,
       "potential": 80,
-      "portrait_key": "seed-gabriel-rodrigues-2057",
+      "portrait_key": "seed-patrick-sweeney-2057",
       "history": [
         {
           "season": "2074",
-          "club": "Portugal",
+          "club": "Ireland",
           "apps": 9,
           "goals": 2,
           "assists": 5
@@ -15549,10 +15549,10 @@
     },
     {
       "id": "e10ed5ab-8dca-4c9d-97de-c10ef9edd566",
-      "firstName": "Rodrigo",
-      "lastName": "Rodrigues",
-      "displayName": "Rodrigo Rodrigues",
-      "nation": "Portugal",
+      "firstName": "Patrick",
+      "lastName": "O'Sullivan",
+      "displayName": "Patrick O'Sullivan",
+      "nation": "Ireland",
       "birth_year": 2054,
       "position": "FW",
       "preferred_foot": "Right",
@@ -15572,11 +15572,11 @@
       },
       "overall": 88,
       "potential": 99,
-      "portrait_key": "seed-rodrigo-rodrigues-2054",
+      "portrait_key": "seed-patrick-o'sullivan-2054",
       "history": [
         {
           "season": "2074",
-          "club": "Portugal",
+          "club": "Ireland",
           "apps": 1,
           "goals": 5,
           "assists": 0
@@ -15587,10 +15587,10 @@
     },
     {
       "id": "00492354-64a5-4b47-ac50-057ef42be814",
-      "firstName": "Rodrigo",
-      "lastName": "Santos",
-      "displayName": "Rodrigo Santos",
-      "nation": "Portugal",
+      "firstName": "Liam",
+      "lastName": "O'Brien",
+      "displayName": "Liam O'Brien",
+      "nation": "Ireland",
       "birth_year": 2054,
       "position": "FW",
       "preferred_foot": "Left",
@@ -15610,11 +15610,11 @@
       },
       "overall": 80,
       "potential": 80,
-      "portrait_key": "seed-rodrigo-santos-2054",
+      "portrait_key": "seed-liam-o'brien-2054",
       "history": [
         {
           "season": "2074",
-          "club": "Portugal",
+          "club": "Ireland",
           "apps": 16,
           "goals": 0,
           "assists": 7
@@ -15625,10 +15625,10 @@
     },
     {
       "id": "2b59438c-8cff-4abb-bd9b-042b0aacbc2c",
-      "firstName": "Tomás",
-      "lastName": "Rodrigues",
-      "displayName": "Tomás Rodrigues",
-      "nation": "Portugal",
+      "firstName": "Connor",
+      "lastName": "Quinn",
+      "displayName": "Connor Quinn",
+      "nation": "Ireland",
       "birth_year": 2055,
       "position": "FW",
       "preferred_foot": "Right",
@@ -15648,11 +15648,11 @@
       },
       "overall": 84,
       "potential": 97,
-      "portrait_key": "seed-tomás-rodrigues-2055",
+      "portrait_key": "seed-connor-quinn-2055",
       "history": [
         {
           "season": "2074",
-          "club": "Portugal",
+          "club": "Ireland",
           "apps": 22,
           "goals": 14,
           "assists": 7
@@ -15663,10 +15663,10 @@
     },
     {
       "id": "213ec8ce-3917-40bc-badf-57cba8f3ca79",
-      "firstName": "Santiago",
-      "lastName": "Oliveira",
-      "displayName": "Santiago Oliveira",
-      "nation": "Portugal",
+      "firstName": "Seamus",
+      "lastName": "Doherty",
+      "displayName": "Seamus Doherty",
+      "nation": "Ireland",
       "birth_year": 2056,
       "position": "FW",
       "preferred_foot": "Right",
@@ -15686,11 +15686,11 @@
       },
       "overall": 78,
       "potential": 88,
-      "portrait_key": "seed-santiago-oliveira-2056",
+      "portrait_key": "seed-seamus-doherty-2056",
       "history": [
         {
           "season": "2074",
-          "club": "Portugal",
+          "club": "Ireland",
           "apps": 7,
           "goals": 9,
           "assists": 6
@@ -15701,10 +15701,10 @@
     },
     {
       "id": "50a5f224-936b-4c9d-ac12-8a41b3d1a3d4",
-      "firstName": "Lourenço",
-      "lastName": "Pereira",
-      "displayName": "Lourenço Pereira",
-      "nation": "Portugal",
+      "firstName": "Aidan",
+      "lastName": "McCarthy",
+      "displayName": "Aidan McCarthy",
+      "nation": "Ireland",
       "birth_year": 2057,
       "position": "GK",
       "preferred_foot": "Right",
@@ -15724,11 +15724,11 @@
       },
       "overall": 72,
       "potential": 72,
-      "portrait_key": "seed-lourenço-pereira-2057",
+      "portrait_key": "seed-aidan-mccarthy-2057",
       "history": [
         {
           "season": "2074",
-          "club": "Portugal",
+          "club": "Ireland",
           "apps": 27,
           "goals": 6,
           "assists": 5

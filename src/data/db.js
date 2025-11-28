@@ -1,3 +1,5 @@
+import PLAYERS_DATA from './players.json'
+
 export const POSITIONS = {
   GK: 'Goalkeeper',
   LB: 'Left Back',
@@ -13,60 +15,28 @@ export const POSITIONS = {
   ST: 'Striker'
 }
 
-const FIRST_NAMES = {
-  Japan: ['Hiroto', 'Ren', 'Haruto', 'Sota', 'Yuto', 'Riku', 'Kaito', 'Takumi', 'Kenji', 'Daiki'],
-  Germany: ['Lukas', 'Finn', 'Elias', 'Noah', 'Leon', 'Luca', 'Felix', 'Maximilian', 'Paul', 'Jonas'],
-  Nigeria: ['Chinedu', 'Emeka', 'Tunde', 'Ade', 'Sola', 'Femi', 'Bolaji', 'Yusuf', 'Musa', 'Ibrahim'],
-  Mexico: ['Santiago', 'Mateo', 'Sebastian', 'Leonardo', 'Matias', 'Emiliano', 'Diego', 'Daniel', 'Miguel', 'Jose'],
-  USA: ['James', 'John', 'Robert', 'Michael', 'William', 'David', 'Richard', 'Joseph', 'Thomas', 'Charles'],
-  England: ['Oliver', 'George', 'Harry', 'Noah', 'Jack', 'Leo', 'Arthur', 'Muhammad', 'Oscar', 'Charlie'],
-  // ... generic fallback
-  World: ['Alex', 'Sam', 'Jordan', 'Casey', 'Riley', 'Taylor', 'Morgan', 'Jamie', 'Quinn', 'Avery']
+const getPlayersForCountry = (country) => {
+  const players = PLAYERS_DATA.players.filter(p => p.nation === country)
+  if (players.length === 0) {
+    // Fallback if no players found for country (shouldn't happen with full generation)
+    return []
+  }
+  return players.map(p => ({
+    id: p.id,
+    name: p.displayName,
+    position: p.position,
+    rating: p.overall,
+    attributes: p.attributes,
+    archetype: getArchetype(p.position, p.attributes) // Helper to assign archetype
+  }))
 }
 
-const LAST_NAMES = {
-  Japan: ['Sato', 'Suzuki', 'Takahashi', 'Tanaka', 'Watanabe', 'Ito', 'Yamamoto', 'Nakamura', 'Kobayashi', 'Kato'],
-  Germany: ['Muller', 'Schmidt', 'Schneider', 'Fischer', 'Weber', 'Meyer', 'Wagner', 'Becker', 'Schulz', 'Hoffmann'],
-  Nigeria: ['Okafor', 'Okonkwo', 'Okeke', 'Okoro', 'Okoye', 'Okpara', 'Okoli', 'Okolo', 'Okorie', 'Okura'],
-  Mexico: ['Garcia', 'Martinez', 'Hernandez', 'Lopez', 'Gonzalez', 'Perez', 'Rodriguez', 'Sanchez', 'Ramirez', 'Cruz'],
-  USA: ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez'],
-  England: ['Smith', 'Jones', 'Taylor', 'Brown', 'Williams', 'Wilson', 'Johnson', 'Davies', 'Robinson', 'Wright'],
-  World: ['Smith', 'Doe', 'White', 'Black', 'Green', 'Brown', 'Gray', 'Blue', 'Red', 'Orange']
-}
-
-const generateName = (country) => {
-  const firsts = FIRST_NAMES[country] || FIRST_NAMES.World
-  const lasts = LAST_NAMES[country] || LAST_NAMES.World
-  return `${firsts[Math.floor(Math.random() * firsts.length)]} ${lasts[Math.floor(Math.random() * lasts.length)]}`
-}
-
-const generateRoster = (country, focus) => {
-  const roster = []
-  const positions = ['GK', 'LB', 'CB', 'CB', 'RB', 'CDM', 'CM', 'CAM', 'LW', 'ST', 'RW', 'GK', 'CB', 'CM', 'ST', 'LW']
-  
-  positions.forEach((pos, i) => {
-    let rating = 75 + Math.floor(Math.random() * 15)
-    // Boost rating based on focus?
-    if (focus.includes('Tactical') && ['CM', 'CDM', 'CAM'].includes(pos)) rating += 3
-    if (focus.includes('Speed') && ['LW', 'RW', 'LB', 'RB'].includes(pos)) rating += 3
-    if (focus.includes('Strength') && ['CB', 'ST'].includes(pos)) rating += 3
-
-    roster.push({
-      id: `${country}-${pos}-${i}`,
-      name: generateName(country),
-      position: pos,
-      rating: Math.min(99, rating),
-      attributes: {
-        pace: 70 + Math.floor(Math.random() * 29),
-        shooting: 60 + Math.floor(Math.random() * 39),
-        passing: 60 + Math.floor(Math.random() * 39),
-        dribbling: 60 + Math.floor(Math.random() * 39),
-        defending: 40 + Math.floor(Math.random() * 59),
-        physical: 60 + Math.floor(Math.random() * 39)
-      }
-    })
-  })
-  return roster
+const getArchetype = (pos, attrs) => {
+  if (pos === 'GK') return 'Reflex Stopper'
+  if (pos === 'DEF') return attrs.pace > 80 ? 'Wing Back' : 'Stopper'
+  if (pos === 'MID') return attrs.vision > 80 ? 'Playmaker' : 'Box-to-Box'
+  if (pos === 'FW') return attrs.pace > 85 ? 'Speedster' : 'Finisher'
+  return 'Utility'
 }
 
 export const TEAMS_DB = [
@@ -98,7 +68,7 @@ export const TEAMS_DB = [
   // Group F
   { name: "China", country: "China", focus: "Hivemind Cohesion", color: "#ffff00" },
   { name: "Egypt", country: "Egypt", focus: "Tactical AI", color: "#c8102e" },
-  { name: "Portugal", country: "Portugal", focus: "Flair/Agility", color: "#046a38" },
+  { name: "Ireland", country: "Ireland", focus: "Fighting Spirit", color: "#169b62" },
   { name: "Ghana", country: "Ghana", focus: "Bio-Hacking", color: "#fcd116" },
   // Group G
   { name: "Russia", country: "Russia", focus: "Brute Strength", color: "#d52b1e" },
@@ -112,5 +82,5 @@ export const TEAMS_DB = [
   { name: "Cameroon", country: "Cameroon", focus: "Brute Strength", color: "#007a5e" },
 ].map(team => ({
   ...team,
-  roster: generateRoster(team.country, team.focus)
+  roster: getPlayersForCountry(team.country)
 }))
