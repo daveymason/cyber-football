@@ -46,7 +46,7 @@ body {
 
 .screen {
   min-height: 100vh;
-  padding: 64px clamp(24px, 6vw, 96px) 96px;
+  padding: 120px clamp(24px, 6vw, 96px) 96px;
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -62,41 +62,87 @@ body {
   text-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
 }
 
-.global-nav {
+.top-bar {
   position: fixed;
-  top: 24px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 88px;
+  padding: 16px clamp(24px, 6vw, 80px);
   display: flex;
-  gap: 16px;
+  justify-content: space-between;
   align-items: center;
-  background: rgba(2, 3, 15, 0.8);
-  padding: 10px 20px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(8px);
-  z-index: 3;
+  background: rgba(2, 3, 15, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  z-index: 5;
 }
 
-.chip-btn {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: var(--text-primary);
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.85rem;
-  padding: 6px 16px;
+.brand-cluster {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.brand-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.build-pill {
+  padding: 6px 14px;
   border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.top-bar-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.icon-pill,
+.text-pill {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+  padding: 8px 16px;
   cursor: pointer;
+  font-family: 'Share Tech Mono', monospace;
   transition: border-color 0.2s ease;
 }
 
-.chip-btn:hover {
+.icon-pill {
+  font-size: 1.1rem;
+}
+
+.icon-pill:hover,
+.text-pill:hover {
   border-color: var(--accent);
 }
 
-.nav-status {
-  color: var(--text-muted);
-  font-size: 0.85rem;
+.live-scoreboard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.live-scoreboard .club {
+  max-width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.score-chip {
+  padding: 6px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 1rem;
 }
 
 .eyebrow {
@@ -273,18 +319,110 @@ body {
   box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.4);
 }
 
-.team-roster ul {
-  list-style: none;
-  margin-top: 16px;
-  color: var(--text-muted);
-  line-height: 1.5;
-}
-
 .vs {
   font-size: clamp(2.5rem, 5vw, 4rem);
   align-self: center;
   color: var(--accent-strong);
   text-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+}
+
+.tactics-panel {
+  background: rgba(3, 6, 18, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.tactics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.formation-select {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formation-select select {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-primary);
+  padding: 8px 12px;
+  font-family: inherit;
+}
+
+.lineup-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.lineup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 12px;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.lineup-table,
+.bench-table {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.lineup-table th,
+.bench-table th {
+  text-align: left;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.lineup-table td,
+.bench-table td {
+  padding: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  vertical-align: middle;
+}
+
+.lineup-table tbody tr,
+.bench-table tbody tr {
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.lineup-table tbody tr:hover,
+.bench-table tbody tr:hover {
+  background: rgba(56, 255, 181, 0.05);
+}
+
+.bench-table tbody tr.selected {
+  background: rgba(56, 255, 181, 0.12);
+  border-left: 3px solid var(--accent);
+}
+
+.tactics-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
 }
 
 .kick-off-btn {
@@ -321,15 +459,29 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1.2rem;
   padding-bottom: 16px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.score-labels {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   font-family: 'Share Tech Mono', monospace;
 }
 
 .score {
   font-size: 2rem;
   letter-spacing: 0.15em;
+}
+
+.live-pill {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
 }
 
 .feed {
@@ -388,7 +540,7 @@ body {
   background: rgba(0, 0, 0, 0.65);
   display: grid;
   place-items: center;
-  z-index: 5;
+  z-index: 10;
   padding: 32px;
 }
 

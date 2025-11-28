@@ -4,6 +4,7 @@ import LockerRoom from './components/LockerRoom.jsx'
 import MatchFeed from './components/MatchFeed.jsx'
 import MainMenu from './components/MainMenu.jsx'
 import SettingsModal from './components/SettingsModal.jsx'
+import TopBar from './components/TopBar.jsx'
 
 const TEAMS = [
   { name: "Neo-Tokyo United", country: "Japan", focus: "Speed/Reflexes", color: "#ff00ff" },
@@ -36,6 +37,7 @@ function App() {
   const [matchEvents, setMatchEvents] = useState([])
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
   const [settingsOpen, setSettingsOpen] = useState(false)
+  const [liveScore, setLiveScore] = useState([0, 0])
 
   const handlePlayNow = () => {
     setScreen('select')
@@ -47,11 +49,13 @@ function App() {
     const others = TEAMS.filter(t => t.name !== team.name)
     const opp = others[Math.floor(Math.random() * others.length)]
     setOpponent(opp)
+    setLiveScore([0, 0])
     setScreen('locker')
   }
 
   const handleKickOff = (events) => {
     setMatchEvents(events)
+    setLiveScore([0, 0])
     setScreen('match')
   }
 
@@ -59,6 +63,7 @@ function App() {
     setMyTeam(null)
     setOpponent(null)
     setMatchEvents([])
+    setLiveScore([0, 0])
     setScreen('menu')
   }
 
@@ -71,13 +76,14 @@ function App() {
 
   return (
     <div className={`app palette-${settings.palette}`} style={{ fontSize: `calc(16px * ${settings.fontScale})` }}>
-      {screen !== 'menu' && (
-        <div className="global-nav">
-          <button className="chip-btn" onClick={handleRestart}>Main Menu</button>
-          <span className="nav-status">⚡ Exhibition Build</span>
-          <button className="chip-btn" onClick={() => setSettingsOpen(true)}>Settings</button>
-        </div>
-      )}
+      <TopBar
+        screen={screen}
+        myTeam={myTeam}
+        opponent={opponent}
+        score={liveScore}
+        onMenu={handleRestart}
+        onSettings={() => setSettingsOpen(true)}
+      />
       {screen === 'menu' && (
         <MainMenu
           onPlayNow={handlePlayNow}
@@ -100,6 +106,7 @@ function App() {
           myTeam={myTeam}
           opponent={opponent}
           onRestart={handleRestart} 
+          onScoreUpdate={setLiveScore}
         />
       )}
       {settingsOpen && (
