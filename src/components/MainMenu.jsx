@@ -1,53 +1,27 @@
-function MainMenu({ onPlayNow, onOpenSettings }) {
+import './MainMenu.css'
+
+const MainMenu = ({ onPlayNow, onStartWorldCup, onOpenSettings }) => {
   return (
-    <div className="screen main-menu">
-      <div className="menu-hero">
-        <p className="eyebrow">Season 2075</p>
-        <h1>Cyber Football Manager</h1>
-        <p className="lead">
-          Command a cult franchise, out-think black-market coaches, and broadcast glory to the orbital fan grid.
-        </p>
+    <div className="main-menu">
+      <div className="main-menu__logo">
+        <h1>CYBER FOOTBALL</h1>
+        <p className="main-menu__tagline">2077 Edition</p>
       </div>
-
-      <div className="menu-actions">
-        <button className="menu-card primary" onClick={onPlayNow}>
-          <div>
-            <span className="card-label">Play Now</span>
-            <p className="card-copy">Instant exhibition with bleeding-edge sim logic.</p>
-          </div>
-          <span className="cta">Launch</span>
+      
+      <div className="main-menu__actions">
+        <button className="main-menu__btn main-menu__btn--primary" onClick={onPlayNow}>
+          Quick Match
         </button>
-
-        <button className="menu-card disabled" disabled title="Career mode enters closed labs soon.">
-          <div>
-            <span className="card-label">Start Career</span>
-            <p className="card-copy">Forge dynasties, negotiate synth contracts, manage egos. Coming soon.</p>
-          </div>
-          <span className="cta">Locked</span>
+        <button className="main-menu__btn main-menu__btn--primary" onClick={onStartWorldCup}>
+          World Cup
         </button>
-
-        <button className="menu-card ghost" onClick={onOpenSettings}>
-          <div>
-            <span className="card-label">Settings</span>
-            <p className="card-copy">Tune presentation, AI hostility, and anomaly frequency.</p>
-          </div>
-          <span className="cta">Configure</span>
+        <button className="main-menu__btn" onClick={onOpenSettings}>
+          Settings
         </button>
       </div>
-
-      <div className="menu-footer">
-        <div>
-          <p className="subhead">Next up</p>
-          <ul>
-            <li>🧠 Narrative career arcs + meta-game economy.</li>
-            <li>📡 Multiplayer data feeds &amp; holo-broadcast overlays.</li>
-            <li>🕶️ Tactical editor for custom cyber augmentations.</li>
-          </ul>
-        </div>
-        <div className="build-tag">
-          <span>Build 0.3.0-pre</span>
-          <span>"Neon Touchline"</span>
-        </div>
+      
+      <div className="main-menu__footer">
+        <p>v0.1.0 • Neon League Systems</p>
       </div>
     </div>
   )

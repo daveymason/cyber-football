@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-function MatchFeed({ events, myTeam, opponent, onRestart, onScoreUpdate }) {
+function MatchFeed({ events, myTeam, opponent, onRestart, onScoreUpdate, onMatchEnd }) {
   const [displayedEvents, setDisplayedEvents] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [gameOver, setGameOver] = useState(false)
@@ -25,6 +25,14 @@ function MatchFeed({ events, myTeam, opponent, onRestart, onScoreUpdate }) {
     }
   }, [currentIndex, events, onScoreUpdate])
 
+  const handleMatchFinish = () => {
+    if (onMatchEnd) {
+      onMatchEnd({ score: finalScore })
+    } else {
+      onRestart()
+    }
+  }
+
   return (
     <div className="screen match-feed">
       <div className="scoreboard">
@@ -46,7 +54,9 @@ function MatchFeed({ events, myTeam, opponent, onRestart, onScoreUpdate }) {
         <div className="game-over">
           <h1>GAME OVER</h1>
           <p className="final-score">{finalScore[0]} - {finalScore[1]}</p>
-          <button onClick={onRestart}>PLAY AGAIN</button>
+          <button onClick={handleMatchFinish}>
+            {onMatchEnd ? 'Continue' : 'Play Again'}
+          </button>
         </div>
       )}
     </div>

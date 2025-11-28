@@ -1,0 +1,559 @@
+.worldcup-hub {
+  min-height: 100vh;
+  padding: 2rem;
+  padding-top: 5rem;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0f0f23 100%);
+  color: #fff;
+}
+
+.worldcup-hub__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #333;
+}
+
+.worldcup-hub__header h1 {
+  font-size: 2.5rem;
+  color: #ffd700;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  margin: 0;
+}
+
+.worldcup-hub__header p {
+  color: #00ffff;
+  margin: 0.5rem 0 0;
+  font-size: 1.1rem;
+}
+
+.worldcup-hub__header-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.worldcup-hub__header-actions button {
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid #444;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.worldcup-hub__header-actions button:hover {
+  border-color: #00ffff;
+  background: rgba(0, 255, 255, 0.1);
+}
+
+/* Cards */
+.worldcup-hub__card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.worldcup-hub__card h2 {
+  font-size: 1.3rem;
+  color: #ff00ff;
+  margin: 0 0 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.5rem;
+}
+
+/* Next Match */
+.worldcup-hub__next-match {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 0, 255, 0.1));
+  border: 2px solid #ffd700;
+}
+
+.worldcup-hub__next-match h2 {
+  color: #ffd700;
+}
+
+.worldcup-hub__fixture-card {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.worldcup-hub__teams {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.worldcup-hub__team {
+  font-size: 1.4rem;
+  font-weight: 700;
+  padding: 1rem 1.5rem;
+  min-width: 200px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+}
+
+.worldcup-hub__team.is-user {
+  color: #00ffff;
+  text-shadow: 0 0 15px #00ffff;
+  border: 2px solid #00ffff;
+  background: rgba(0, 255, 255, 0.1);
+}
+
+.worldcup-hub__vs {
+  font-size: 2rem;
+  color: #ffd700;
+  font-weight: 900;
+}
+
+/* Buttons */
+.worldcup-hub__btn {
+  padding: 0.75rem 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: 2px solid #444;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: 6px;
+}
+
+.worldcup-hub__btn:hover {
+  border-color: #00ffff;
+  background: rgba(0, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.worldcup-hub__btn--primary {
+  border-color: #ffd700;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 215, 0, 0.1));
+  color: #ffd700;
+}
+
+.worldcup-hub__btn--primary:hover {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.5), rgba(255, 215, 0, 0.2));
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+.worldcup-hub__btn--large {
+  padding: 1.25rem 4rem;
+  font-size: 1.3rem;
+}
+
+/* Main Group Table */
+.worldcup-hub__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.worldcup-hub__table th,
+.worldcup-hub__table td {
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  border-bottom: 1px solid #333;
+}
+
+.worldcup-hub__table th {
+  color: #888;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.worldcup-hub__table .team-name {
+  text-align: left;
+  font-weight: 600;
+}
+
+.worldcup-hub__table .position {
+  font-weight: 700;
+  width: 40px;
+}
+
+.worldcup-hub__table tr.is-user {
+  background: rgba(0, 255, 255, 0.15);
+}
+
+.worldcup-hub__table tr.is-user td {
+  color: #00ffff;
+}
+
+.worldcup-hub__table tr.qualifies .position {
+  color: #00ff00;
+}
+
+.worldcup-hub__table tr.eliminated .position {
+  color: #ff4444;
+}
+
+.worldcup-hub__table .points {
+  font-weight: 700;
+  color: #ffd700;
+  font-size: 1.2rem;
+}
+
+.worldcup-hub__qualify-note {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #00ff00;
+}
+
+/* All 8 Groups Grid */
+.worldcup-hub__all-groups {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 1200px) {
+  .worldcup-hub__all-groups {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .worldcup-hub__all-groups {
+    grid-template-columns: 1fr;
+  }
+}
+
+.worldcup-hub__mini-group {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #333;
+}
+
+.worldcup-hub__mini-group.is-user-group {
+  border: 2px solid #00ffff;
+  background: rgba(0, 255, 255, 0.08);
+}
+
+.worldcup-hub__mini-group h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+  color: #ff00ff;
+  text-align: center;
+}
+
+.worldcup-hub__mini-group.is-user-group h3 {
+  color: #00ffff;
+}
+
+.worldcup-hub__mini-group table {
+  width: 100%;
+}
+
+.worldcup-hub__mini-group th {
+  color: #666;
+  font-size: 0.7rem;
+  text-align: left;
+  padding: 0.25rem;
+}
+
+.worldcup-hub__mini-group th:last-child {
+  text-align: right;
+}
+
+.worldcup-hub__mini-group td {
+  padding: 0.4rem 0.25rem;
+  border-bottom: 1px solid #222;
+}
+
+.worldcup-hub__mini-group .mini-pos {
+  width: 25px;
+  color: #666;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.worldcup-hub__mini-group tr.qualifies .mini-pos {
+  color: #00ff00;
+}
+
+.worldcup-hub__mini-group .mini-team {
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 130px;
+}
+
+.worldcup-hub__mini-group .mini-pts {
+  text-align: right;
+  font-weight: 700;
+  color: #ffd700;
+  width: 35px;
+}
+
+.worldcup-hub__mini-group tr.is-user td {
+  color: #00ffff;
+}
+
+.worldcup-hub__mini-group tr.is-user .mini-pts {
+  color: #00ffff;
+}
+
+/* Fixtures List */
+.worldcup-hub__fixtures-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .worldcup-hub__fixtures-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+.worldcup-hub__matchday-block {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.worldcup-hub__matchday-block h4 {
+  color: #888;
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.5rem;
+}
+
+.worldcup-hub__fixture-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.worldcup-hub__fixture-row.has-user {
+  border: 1px solid #00ffff;
+  background: rgba(0, 255, 255, 0.1);
+}
+
+.worldcup-hub__fixture-row.played {
+  opacity: 0.6;
+}
+
+.worldcup-hub__fixture-row .is-user {
+  color: #00ffff;
+  font-weight: 700;
+}
+
+.worldcup-hub__fixture-row .fixture-score {
+  color: #ffd700;
+  font-weight: 700;
+  min-width: 60px;
+  text-align: center;
+}
+
+/* Results Screen */
+.worldcup-hub__results-card {
+  max-width: 750px;
+  margin: 2rem auto;
+}
+
+.worldcup-hub__results-card h3 {
+  color: #888;
+  margin: 1.5rem 0 0.75rem;
+  font-size: 1rem;
+}
+
+.worldcup-hub__user-result {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: rgba(0, 255, 255, 0.1);
+  border-radius: 10px;
+  border: 2px solid #00ffff;
+}
+
+.worldcup-hub__user-result h3 {
+  margin: 0 0 1rem;
+  color: #00ffff;
+  font-size: 1.1rem;
+}
+
+.worldcup-hub__result-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.worldcup-hub__result-row .home,
+.worldcup-hub__result-row .away {
+  min-width: 150px;
+  font-weight: 600;
+}
+
+.worldcup-hub__result-row .home {
+  text-align: right;
+}
+
+.worldcup-hub__result-row .away {
+  text-align: left;
+}
+
+.worldcup-hub__result-row .score {
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: #ffd700;
+  min-width: 80px;
+  text-align: center;
+}
+
+.worldcup-hub__result-row .group {
+  font-size: 0.8rem;
+  color: #888;
+  min-width: 70px;
+}
+
+.worldcup-hub__result-row.win {
+  background: rgba(0, 255, 0, 0.15);
+  border-left: 4px solid #00ff00;
+}
+
+.worldcup-hub__result-row.loss {
+  background: rgba(255, 0, 0, 0.15);
+  border-left: 4px solid #ff4444;
+}
+
+.worldcup-hub__result-row.draw {
+  background: rgba(255, 255, 0, 0.1);
+  border-left: 4px solid #ffff00;
+}
+
+/* Bracket */
+.worldcup-hub__bracket {
+  display: flex;
+  gap: 2rem;
+  overflow-x: auto;
+  padding: 1.5rem 0;
+}
+
+.worldcup-hub__bracket-round {
+  min-width: 240px;
+}
+
+.worldcup-hub__bracket-round h3 {
+  font-size: 1rem;
+  color: #ffd700;
+  margin: 0 0 1rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.worldcup-hub__bracket-match {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 0.85rem;
+  margin-bottom: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #333;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.worldcup-hub__bracket-match.has-user {
+  border: 2px solid #00ffff;
+  background: rgba(0, 255, 255, 0.1);
+}
+
+.worldcup-hub__bracket-match .is-user {
+  color: #00ffff;
+  font-weight: 700;
+}
+
+.worldcup-hub__bracket-score {
+  display: block;
+  color: #ffd700;
+  font-weight: 700;
+  margin: 0.4rem 0;
+  font-size: 1.1rem;
+}
+
+/* Squad Status */
+.worldcup-hub__squad-status {
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.worldcup-hub__stat {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.worldcup-hub__stat .label {
+  color: #888;
+  min-width: 100px;
+}
+
+.worldcup-hub__stat .value {
+  font-weight: 700;
+  color: #00ffff;
+  font-size: 1.1rem;
+}
+
+.worldcup-hub__stat .injury-count {
+  color: #ff4444;
+}
+
+.worldcup-hub__fatigue-bar {
+  width: 180px;
+  height: 12px;
+  background: #222;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.worldcup-hub__fatigue-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00ff00 0%, #ffff00 50%, #ff0000 100%);
+  transition: width 0.3s;
+}
+
+/* Eliminated / Champion */
+.worldcup-hub__eliminated,
+.worldcup-hub__champion {
+  text-align: center;
+  padding: 8rem 2rem;
+}
+
+.worldcup-hub__eliminated h1 {
+  font-size: 4rem;
+  color: #ff4444;
+  text-shadow: 0 0 40px #ff4444;
+  margin-bottom: 1.5rem;
+}
+
+.worldcup-hub__champion h1 {
+  font-size: 3.5rem;
+  color: #ffd700;
+  text-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+  margin-bottom: 1.5rem;
+}
+
+.worldcup-hub__champion p,
+.worldcup-hub__eliminated p {
+  font-size: 1.4rem;
+  margin: 0 0 2.5rem;
+  color: #ccc;
+}
