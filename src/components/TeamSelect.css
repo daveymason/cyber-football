@@ -1,0 +1,208 @@
+.team-select {
+  padding-top: 5.5rem; /* clear the top bar */
+}
+
+.team-card {
+  background: rgba(10, 16, 36, 0.95);
+  color: #ffffff; /* Force white text */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8); /* Stronger shadow for readability */
+  border: 2px solid transparent;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-4px);
+}
+
+.team-card__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.35rem;
+  color: #f4f8ff !important;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+}
+
+.team-card__flag {
+  width: 3.75rem;
+  height: 3.75rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.team-card__flagBadge {
+  width: 4.25rem;
+  height: 4.25rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 2.2rem;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inherit;
+}
+
+.team-card__title h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.team-card__titleStack {
+    color: #ffffff !important;
+}
+
+.team-card__titleStack h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffffff !important; /* Ensure title is pure white */
+  font-weight: 700;
+}
+
+.team-card__titleStack small {
+  display: block;
+  margin-top: 0.15rem;
+  color: #e0eaff; /* Very light blue-white for subtitle */
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.team-card__focus {
+  margin: 0;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: #ffffff; /* Bright white for focus text */
+  opacity: 0.8;
+}
+
+.team-select-screen {
+  padding: 6rem 2rem 4rem;
+  min-height: 100vh;
+  background: radial-gradient(circle at 50% 0%, #1a1a2e 0%, #050505 100%);
+  color: #fff;
+}
+
+.team-select-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.team-select-header h1 {
+  font-size: 3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #00ffff;
+  text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+  margin: 0 0 0.5rem;
+}
+
+.team-select-header p {
+  color: #888;
+  font-size: 1.1rem;
+}
+
+.teams-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.group-container {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 1.5rem;
+  backdrop-filter: blur(5px);
+}
+
+.group-title {
+  color: #ff00ff;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.5rem;
+  margin: 0 0 1rem;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+}
+
+.group-teams {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.team-card-new {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: linear-gradient(90deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 100%);
+  border: 1px solid #444;
+  border-left: 4px solid var(--team-color);
+  padding: 1rem 1.2rem;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.team-card-new:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(5px);
+  box-shadow: 0 0 15px var(--team-color);
+  border-color: #fff;
+}
+
+.card-flag {
+  font-size: 2.5rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
+}
+
+.card-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-name {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+.card-country {
+  font-size: 0.8rem;
+  color: #aaa;
+  text-transform: uppercase;
+}
+
+.card-focus {
+  font-size: 0.8rem;
+  color: var(--team-color);
+  opacity: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  filter: brightness(1.2);
+  margin-top: 0.2rem;
+}

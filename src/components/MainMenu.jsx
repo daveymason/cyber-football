@@ -5,7 +5,7 @@ const MainMenu = ({ onPlayNow, onStartWorldCup, onOpenSettings }) => {
     <div className="main-menu">
       <div className="main-menu__logo">
         <h1>CYBER FOOTBALL</h1>
-        <p className="main-menu__tagline">2077 Edition</p>
+        <p className="main-menu__tagline">2076 Edition</p>
       </div>
       
       <div className="main-menu__actions">

@@ -24,7 +24,7 @@ function SettingsModal({ settings, onClose, onChange }) {
           <div>
             <p className="eyebrow">Control Deck</p>
             <h2>Simulation Settings</h2>
-            <p className="lead">Prototype controls for the 2075 broadcast build. Most settings persist locally.</p>
+            <p className="lead">Prototype controls for the 2076 broadcast build. Most settings persist locally.</p>
           </div>
           <button className="ghost-btn" onClick={onClose}>Close</button>
         </header>

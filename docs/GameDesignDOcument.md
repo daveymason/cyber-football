@@ -1,4 +1,4 @@
-Cyber-Football 2075
+Cyber-Football 2076
 
 Platform: PC (Steam/Itch.io) Target Price: €4.99 Engine: Tauri (Rust Backend / React Frontend)
 

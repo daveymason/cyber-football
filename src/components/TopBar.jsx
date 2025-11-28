@@ -8,7 +8,6 @@ function TopBar({ screen, myTeam, opponent, score, onMenu, onSettings }) {
           <p className="eyebrow">Cyber Ops Suite</p>
           <span className="brand-title">Cyber Football Manager</span>
         </div>
-        <span className="build-pill">2075 Exhibition</span>
       </div>
 
       {showScore && (

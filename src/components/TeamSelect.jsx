@@ -1,19 +1,41 @@
-function TeamSelect({ teams, onSelect }) {
+import './TeamSelect.css'
+
+const FLAG_EMOJI = {
+  Japan: '🇯🇵', Germany: '🇩🇪', Nigeria: '🇳🇬', Mexico: '🇲🇽',
+  USA: '🇺🇸', England: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', Iran: '🇮🇷', 'South Korea': '🇰🇷',
+  Brazil: '🇧🇷', France: '🇫🇷', 'Saudi Arabia': '🇸🇦', Poland: '🇵🇱',
+  Argentina: '🇦🇷', Netherlands: '🇳🇱', Morocco: '🇲🇦', Australia: '🇦🇺',
+  Spain: '🇪🇸', Canada: '🇨🇦', Senegal: '🇸🇳', Serbia: '🇷🇸',
+  China: '🇨🇳', Egypt: '🇪🇬', Portugal: '🇵🇹', Ghana: '🇬🇭',
+  Russia: '🇷🇺', Switzerland: '🇨🇭', Colombia: '🇨🇴', Tunisia: '🇹🇳',
+  India: '🇮🇳', Sweden: '🇸🇪', Uruguay: '🇺🇾', Cameroon: '🇨🇲',
+}
+
+export const TeamSelect = ({ teams, onSelect }) => {
   return (
-    <div className="screen team-select">
-      <h1 className="title">SELECT YOUR TEAM</h1>
-      <div className="team-grid">
-        {teams.map((team) => (
-          <div 
-            key={team.name} 
-            className="team-card"
-            style={{ borderColor: team.color }}
+    <div className="team-select-screen">
+      <header className="team-select-header">
+        <h1>Select Your Nation</h1>
+        <p>Choose a team to lead to glory in the Cyber World Cup 2077</p>
+      </header>
+      
+      <div className="teams-grid">
+        {teams.map(team => (
+          <button
+            key={team.name}
+            className="team-card-new"
+            style={{ '--team-color': team.color }}
             onClick={() => onSelect(team)}
           >
-            <h2 style={{ color: team.color }}>{team.name}</h2>
-            <p className="country">{team.country}</p>
-            <p className="focus">{team.focus}</p>
-          </div>
+            <div className="card-flag">{FLAG_EMOJI[team.name] ?? '🏳️'}</div>
+            <div className="card-info">
+              <h3 className="card-name">{team.name}</h3>
+              {team.country && team.country !== team.name && (
+                <span className="card-country">{team.country}</span>
+              )}
+              <span className="card-focus">{team.focus}</span>
+            </div>
+          </button>
         ))}
       </div>
     </div>

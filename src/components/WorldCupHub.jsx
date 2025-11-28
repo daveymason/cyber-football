@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { 
   getNextUserFixture, 
   getGroupStandings, 
@@ -6,6 +7,8 @@ import {
 import './WorldCupHub.css'
 
 const WorldCupHub = ({ state, onPlayFixture, onAdvance, onSave, onLoad }) => {
+  const [view, setView] = useState('dashboard')
+
   if (!state) return null
   
   const nextFixture = getNextUserFixture(state)
@@ -22,7 +25,7 @@ const WorldCupHub = ({ state, onPlayFixture, onAdvance, onSave, onLoad }) => {
   if (state.tournamentComplete) {
     if (state.userEliminated) {
       return (
-        <div className="worldcup-hub">
+        <div className="worldcup-hub-layout">
           <div className="worldcup-hub__eliminated">
             <h1>ELIMINATED</h1>
             <p>{state.userTeam?.name} has been knocked out of the World Cup.</p>
@@ -38,7 +41,7 @@ const WorldCupHub = ({ state, onPlayFixture, onAdvance, onSave, onLoad }) => {
                       (finalFixture.away === state.userTeam?.name && finalFixture.score[1] > finalFixture.score[0])
       if (userWon) {
         return (
-          <div className="worldcup-hub">
+          <div className="worldcup-hub-layout">
             <div className="worldcup-hub__champion">
               <h1>🏆 WORLD CHAMPIONS! 🏆</h1>
               <p>{state.userTeam?.name} has won the Cyber Football World Cup!</p>
@@ -53,75 +56,84 @@ const WorldCupHub = ({ state, onPlayFixture, onAdvance, onSave, onLoad }) => {
   // Show results screen after playing a match
   if (state.pendingResults && state.pendingResults.length > 0) {
     return (
-      <div className="worldcup-hub">
-        <header className="worldcup-hub__header">
-          <h1>{getRoundName()} - Results</h1>
-        </header>
-        
-        <section className="worldcup-hub__card worldcup-hub__results-card">
-          <h2>Matchday {state.matchday} Results</h2>
+      <div className="worldcup-hub-layout">
+        <main className="worldcup-hub-content">
+          <header className="worldcup-hub__header">
+            <h1>{getRoundName()} - Results</h1>
+          </header>
           
-          {state.history.length > 0 && (
-            <div className="worldcup-hub__user-result">
-              <h3>Your Match</h3>
-              {(() => {
-                const userResult = state.history[state.history.length - 1]
-                const isUserHome = userResult.home === state.userTeam?.name
-                const userWon = (isUserHome && userResult.score[0] > userResult.score[1]) ||
-                               (!isUserHome && userResult.score[1] > userResult.score[0])
-                const isDraw = userResult.score[0] === userResult.score[1]
-                return (
-                  <div className={`worldcup-hub__result-row ${userWon ? 'win' : isDraw ? 'draw' : 'loss'}`}>
-                    <span className="home">{userResult.home}</span>
-                    <span className="score">{userResult.score[0]} - {userResult.score[1]}</span>
-                    <span className="away">{userResult.away}</span>
-                  </div>
-                )
-              })()}
-            </div>
-          )}
-          
-          {state.pendingResults.length > 0 && (
-            <>
-              <h3>Other Matches</h3>
-              <div className="worldcup-hub__other-results">
-                {state.pendingResults.map(result => (
-                  <div key={result.id} className="worldcup-hub__result-row">
-                    <span className="group">Group {result.group}</span>
-                    <span className="home">{result.home}</span>
-                    <span className="score">{result.score[0]} - {result.score[1]}</span>
-                    <span className="away">{result.away}</span>
-                  </div>
-                ))}
+          <section className="worldcup-hub__card worldcup-hub__results-card">
+            <h2>Matchday {state.matchday} Results</h2>
+            
+            {state.history.length > 0 && (
+              <div className="worldcup-hub__user-result">
+                <h3>Your Match</h3>
+                {(() => {
+                  const userResult = state.history[state.history.length - 1]
+                  const isUserHome = userResult.home === state.userTeam?.name
+                  const userWon = (isUserHome && userResult.score[0] > userResult.score[1]) ||
+                                 (!isUserHome && userResult.score[1] > userResult.score[0])
+                  const isDraw = userResult.score[0] === userResult.score[1]
+                  return (
+                    <div className={`worldcup-hub__result-row ${userWon ? 'win' : isDraw ? 'draw' : 'loss'}`}>
+                      <span className="home">{userResult.home}</span>
+                      <span className="score">{userResult.score[0]} - {userResult.score[1]}</span>
+                      <span className="away">{userResult.away}</span>
+                    </div>
+                  )
+                })()}
               </div>
-            </>
-          )}
-          
-          <button 
-            className="worldcup-hub__btn worldcup-hub__btn--primary"
-            onClick={onAdvance}
-          >
-            Continue
-          </button>
-        </section>
+            )}
+            
+            {state.pendingResults.length > 0 && (
+              <>
+                <h3>Other Matches</h3>
+                <div className="worldcup-hub__other-results">
+                  {state.pendingResults.map(result => (
+                    <div key={result.id} className="worldcup-hub__result-row">
+                      <span className="group">Group {result.group}</span>
+                      <span className="home">{result.home}</span>
+                      <span className="score">{result.score[0]} - {result.score[1]}</span>
+                      <span className="away">{result.away}</span>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+            
+            <button 
+              className="worldcup-hub__btn worldcup-hub__btn--primary"
+              onClick={onAdvance}
+            >
+              Continue
+            </button>
+          </section>
+        </main>
       </div>
     )
   }
 
-  return (
-    <div className="worldcup-hub">
-      <header className="worldcup-hub__header">
-        <div>
-          <h1>🏆 World Cup 2077</h1>
-          <p>{getRoundName()} • {state.userTeam?.name} • Group {state.userGroup}</p>
-        </div>
-        <div className="worldcup-hub__header-actions">
-          <button onClick={onSave}>Save</button>
-          <button onClick={onLoad}>Load</button>
-        </div>
-      </header>
+  const renderSidebar = () => (
+    <aside className="hub-sidebar">
+      <div className="hub-sidebar__logo">
+        <h2>WC 2076</h2>
+      </div>
+      <nav className="hub-sidebar__nav">
+        <button className={view === 'dashboard' ? 'active' : ''} onClick={() => setView('dashboard')}>Dashboard</button>
+        <button className={view === 'squad' ? 'active' : ''} onClick={() => setView('squad')}>Squad</button>
+        <button className={view === 'tactics' ? 'active' : ''} onClick={() => setView('tactics')}>Tactics</button>
+        <button className={view === 'standings' ? 'active' : ''} onClick={() => setView('standings')}>Standings</button>
+        <button className={view === 'fixtures' ? 'active' : ''} onClick={() => setView('fixtures')}>Fixtures</button>
+      </nav>
+      <div className="hub-sidebar__footer">
+        <button onClick={onSave}>Save</button>
+        <button onClick={onLoad}>Load</button>
+      </div>
+    </aside>
+  )
 
-      {/* Next Match Card */}
+  const renderDashboard = () => (
+    <>
       {state.phase === 'group' && nextFixture && (
         <section className="worldcup-hub__card worldcup-hub__next-match">
           <h2>Your Next Match - Matchday {state.matchday}</h2>
@@ -144,47 +156,71 @@ const WorldCupHub = ({ state, onPlayFixture, onAdvance, onSave, onLoad }) => {
           </div>
         </section>
       )}
+      
+      {state.phase === 'knockout' && (
+        <>
+          {nextFixture ? (
+            <section className="worldcup-hub__card worldcup-hub__next-match">
+              <h2>{getRoundName()}</h2>
+              <div className="worldcup-hub__fixture-card">
+                <div className="worldcup-hub__teams">
+                  <div className={`worldcup-hub__team ${nextFixture.home === state.userTeam?.name ? 'is-user' : ''}`}>
+                    {nextFixture.home}
+                  </div>
+                  <div className="worldcup-hub__vs">VS</div>
+                  <div className={`worldcup-hub__team ${nextFixture.away === state.userTeam?.name ? 'is-user' : ''}`}>
+                    {nextFixture.away}
+                  </div>
+                </div>
+                <button 
+                  className="worldcup-hub__btn worldcup-hub__btn--primary worldcup-hub__btn--large"
+                  onClick={() => onPlayFixture(nextFixture)}
+                >
+                  PLAY MATCH
+                </button>
+              </div>
+            </section>
+          ) : (
+            <section className="worldcup-hub__card">
+              <h2>{getRoundName()}</h2>
+              <p style={{textAlign: 'center', padding: '1rem'}}>Waiting for next opponent...</p>
+            </section>
+          )}
 
-      {/* Knockout Match */}
-      {state.phase === 'knockout' && nextFixture && (
-        <section className="worldcup-hub__card worldcup-hub__next-match">
-          <h2>{getRoundName()}</h2>
-          <div className="worldcup-hub__fixture-card">
-            <div className="worldcup-hub__teams">
-              <div className={`worldcup-hub__team ${nextFixture.home === state.userTeam?.name ? 'is-user' : ''}`}>
-                {nextFixture.home}
-              </div>
-              <div className="worldcup-hub__vs">VS</div>
-              <div className={`worldcup-hub__team ${nextFixture.away === state.userTeam?.name ? 'is-user' : ''}`}>
-                {nextFixture.away}
-              </div>
+          <section className="worldcup-hub__card">
+            <h2>Knockout Bracket</h2>
+             <div className="worldcup-hub__bracket">
+              {['R16', 'QF', 'SF', 'F'].map(round => {
+                const roundFixtures = state.knockoutBracket.filter(f => f.round === round)
+                if (roundFixtures.length === 0) return null
+                const roundNames = { R16: 'Round of 16', QF: 'Quarter-Finals', SF: 'Semi-Finals', F: 'Final' }
+                return (
+                  <div key={round} className="worldcup-hub__bracket-round">
+                    <h3>{roundNames[round]}</h3>
+                    {roundFixtures.map(f => (
+                      <div key={f.id} className={`worldcup-hub__bracket-match ${f.home === state.userTeam?.name || f.away === state.userTeam?.name ? 'has-user' : ''}`}>
+                        <span className={f.home === state.userTeam?.name ? 'is-user' : ''}>{f.home}</span>
+                        <span className="worldcup-hub__bracket-score">{f.status === 'played' ? `${f.score[0]} - ${f.score[1]}` : 'vs'}</span>
+                        <span className={f.away === state.userTeam?.name ? 'is-user' : ''}>{f.away}</span>
+                      </div>
+                    ))}
+                  </div>
+                )
+              })}
             </div>
-            <button 
-              className="worldcup-hub__btn worldcup-hub__btn--primary worldcup-hub__btn--large"
-              onClick={() => onPlayFixture(nextFixture)}
-            >
-              PLAY MATCH
-            </button>
-          </div>
-        </section>
+          </section>
+        </>
       )}
 
-      {/* Your Group Table */}
       {state.phase === 'group' && userGroupStandings.length > 0 && (
         <section className="worldcup-hub__card">
-          <h2>Group {state.userGroup} - Your Group</h2>
+          <h2>Group {state.userGroup}</h2>
           <table className="worldcup-hub__table">
             <thead>
               <tr>
                 <th>#</th>
                 <th>Team</th>
                 <th>P</th>
-                <th>W</th>
-                <th>D</th>
-                <th>L</th>
-                <th>GF</th>
-                <th>GA</th>
-                <th>GD</th>
                 <th>Pts</th>
               </tr>
             </thead>
@@ -197,23 +233,62 @@ const WorldCupHub = ({ state, onPlayFixture, onAdvance, onSave, onLoad }) => {
                   <td className="position">{idx + 1}</td>
                   <td className="team-name">{row.team}</td>
                   <td>{row.played}</td>
-                  <td>{row.won}</td>
-                  <td>{row.drawn}</td>
-                  <td>{row.lost}</td>
-                  <td>{row.goalsFor}</td>
-                  <td>{row.goalsAgainst}</td>
-                  <td>{row.goalDiff > 0 ? `+${row.goalDiff}` : row.goalDiff}</td>
                   <td className="points">{row.points}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <p className="worldcup-hub__qualify-note">✓ Top 2 teams advance to Round of 16</p>
         </section>
       )}
+    </>
+  )
 
-      {/* All 8 Groups */}
-      {state.phase === 'group' && (
+  const renderSquad = () => (
+    <section className="worldcup-hub__card">
+      <h2>Squad Management</h2>
+      <table className="worldcup-hub__table">
+        <thead>
+          <tr>
+            <th>Pos</th>
+            <th>Name</th>
+            <th>Rating</th>
+            <th>Condition</th>
+            <th>Morale</th>
+          </tr>
+        </thead>
+        <tbody>
+          {state.userSquad ? state.userSquad.map(player => (
+            <tr key={player.id}>
+              <td>{player.position}</td>
+              <td>{player.name}</td>
+              <td>{player.rating}</td>
+              <td>{player.condition}%</td>
+              <td>{player.morale}%</td>
+            </tr>
+          )) : <tr><td colSpan="5">No squad data available. Start a new career to generate squad.</td></tr>}
+        </tbody>
+      </table>
+    </section>
+  )
+
+  const renderTactics = () => (
+    <section className="worldcup-hub__card">
+      <h2>Tactics</h2>
+      <div className="tactics-board">
+        <p>Current Formation: <strong>{state.tactics?.formation || '4-3-3'}</strong></p>
+        <p>Play Style: <strong>{state.tactics?.style || 'Balanced'}</strong></p>
+        <div className="tactics-visual">
+           <div className="pitch-placeholder">
+             [Tactical Pitch View]
+           </div>
+        </div>
+      </div>
+    </section>
+  )
+
+  const renderStandings = () => (
+    <>
+    {state.phase === 'group' && (
         <section className="worldcup-hub__card">
           <h2>All Groups</h2>
           <div className="worldcup-hub__all-groups">
@@ -254,11 +329,37 @@ const WorldCupHub = ({ state, onPlayFixture, onAdvance, onSave, onLoad }) => {
           </div>
         </section>
       )}
-
-      {/* Group Fixtures */}
-      {state.phase === 'group' && state.groupFixtures && (
+      {state.phase === 'knockout' && state.knockoutBracket && (
         <section className="worldcup-hub__card">
-          <h2>Group {state.userGroup} Fixtures</h2>
+          <h2>Knockout Bracket</h2>
+           <div className="worldcup-hub__bracket">
+            {['R16', 'QF', 'SF', 'F'].map(round => {
+              const roundFixtures = state.knockoutBracket.filter(f => f.round === round)
+              if (roundFixtures.length === 0) return null
+              const roundNames = { R16: 'Round of 16', QF: 'Quarter-Finals', SF: 'Semi-Finals', F: 'Final' }
+              return (
+                <div key={round} className="worldcup-hub__bracket-round">
+                  <h3>{roundNames[round]}</h3>
+                  {roundFixtures.map(f => (
+                    <div key={f.id} className={`worldcup-hub__bracket-match ${f.home === state.userTeam?.name || f.away === state.userTeam?.name ? 'has-user' : ''}`}>
+                      <span className={f.home === state.userTeam?.name ? 'is-user' : ''}>{f.home}</span>
+                      <span className="worldcup-hub__bracket-score">{f.status === 'played' ? `${f.score[0]} - ${f.score[1]}` : 'vs'}</span>
+                      <span className={f.away === state.userTeam?.name ? 'is-user' : ''}>{f.away}</span>
+                    </div>
+                  ))}
+                </div>
+              )
+            })}
+          </div>
+        </section>
+      )}
+    </>
+  )
+
+  const renderFixtures = () => (
+    <section className="worldcup-hub__card">
+      <h2>Fixtures</h2>
+      {state.phase === 'group' && state.groupFixtures && (
           <div className="worldcup-hub__fixtures-list">
             {[1, 2, 3].map(md => {
               const mdFixtures = state.groupFixtures.filter(
@@ -283,62 +384,26 @@ const WorldCupHub = ({ state, onPlayFixture, onAdvance, onSave, onLoad }) => {
               )
             })}
           </div>
-        </section>
       )}
+    </section>
+  )
 
-      {/* Knockout Bracket */}
-      {state.phase === 'knockout' && state.knockoutBracket && (
-        <section className="worldcup-hub__card">
-          <h2>Knockout Stage</h2>
-          <div className="worldcup-hub__bracket">
-            {['R16', 'QF', 'SF', 'F'].map(round => {
-              const roundFixtures = state.knockoutBracket.filter(f => f.round === round)
-              if (roundFixtures.length === 0) return null
-              
-              const roundNames = { R16: 'Round of 16', QF: 'Quarter-Finals', SF: 'Semi-Finals', F: 'Final' }
-              
-              return (
-                <div key={round} className="worldcup-hub__bracket-round">
-                  <h3>{roundNames[round]}</h3>
-                  {roundFixtures.map(f => (
-                    <div 
-                      key={f.id} 
-                      className={`worldcup-hub__bracket-match ${f.home === state.userTeam?.name || f.away === state.userTeam?.name ? 'has-user' : ''}`}
-                    >
-                      <span className={f.home === state.userTeam?.name ? 'is-user' : ''}>{f.home}</span>
-                      <span className="worldcup-hub__bracket-score">
-                        {f.status === 'played' ? `${f.score[0]} - ${f.score[1]}` : 'vs'}
-                      </span>
-                      <span className={f.away === state.userTeam?.name ? 'is-user' : ''}>{f.away}</span>
-                    </div>
-                  ))}
-                </div>
-              )
-            })}
+  return (
+    <div className="worldcup-hub-layout">
+      {renderSidebar()}
+      <main className="worldcup-hub-content">
+        <header className="worldcup-hub__header">
+          <div>
+            <h1>🏆 World Cup 2076</h1>
+            <p>{getRoundName()} • {state.userTeam?.name} • Group {state.userGroup}</p>
           </div>
-        </section>
-      )}
-
-      {/* Squad Status */}
-      <section className="worldcup-hub__card">
-        <h2>Squad Status</h2>
-        <div className="worldcup-hub__squad-status">
-          <div className="worldcup-hub__stat">
-            <span className="label">Team Fatigue</span>
-            <div className="worldcup-hub__fatigue-bar">
-              <div 
-                className="worldcup-hub__fatigue-fill" 
-                style={{ width: `${Math.round(state.fatigue[state.userTeam?.name] ?? 0)}%` }}
-              />
-            </div>
-            <span className="value">{Math.round(state.fatigue[state.userTeam?.name] ?? 0)}%</span>
-          </div>
-          <div className="worldcup-hub__stat">
-            <span className="label">Injured Players</span>
-            <span className="value injury-count">{state.injuries.filter(i => i.team === state.userTeam?.name).length}</span>
-          </div>
-        </div>
-      </section>
+        </header>
+        {view === 'dashboard' && renderDashboard()}
+        {view === 'squad' && renderSquad()}
+        {view === 'tactics' && renderTactics()}
+        {view === 'standings' && renderStandings()}
+        {view === 'fixtures' && renderFixtures()}
+      </main>
     </div>
   )
 }
