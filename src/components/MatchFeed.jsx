@@ -1,10 +1,15 @@
 import { useState, useEffect } from 'react'
 
-function MatchFeed({ events, myTeam, opponent, onRestart, onScoreUpdate, onMatchEnd }) {
+function MatchFeed({ events, myTeam, opponent, matchContext, isHome: isHomeProp, onRestart, onScoreUpdate, onMatchEnd }) {
   const [displayedEvents, setDisplayedEvents] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [gameOver, setGameOver] = useState(false)
   const [finalScore, setFinalScore] = useState([0, 0])
+
+  // Use explicit home/away teams based on the played match flag
+  // This ensures the display matches the backend simulation orientation
+  const homeTeam = matchContext?.homeTeam || (isHomeProp ? myTeam : opponent)
+  const awayTeam = matchContext?.awayTeam || (isHomeProp ? opponent : myTeam)
 
   useEffect(() => {
     if (currentIndex < events.length) {
@@ -37,9 +42,9 @@ function MatchFeed({ events, myTeam, opponent, onRestart, onScoreUpdate, onMatch
     <div className="screen match-feed">
       <div className="scoreboard">
         <div className="score-labels">
-          <span style={{ color: myTeam.color }}>{myTeam.name}</span>
-          <span className="score">{finalScore[0]} - {finalScore[1]}</span>
-          <span style={{ color: opponent.color }}>{opponent.name}</span>
+          <span style={{ color: homeTeam.color, textAlign: 'right', minWidth: '150px' }}>{homeTeam.name}</span>
+          <span className="score" style={{ margin: '0 1rem' }}>{finalScore[0]} - {finalScore[1]}</span>
+          <span style={{ color: awayTeam.color, textAlign: 'left', minWidth: '150px' }}>{awayTeam.name}</span>
         </div>
         <span className="live-pill">Live Sim</span>
       </div>

@@ -6,6 +6,14 @@ import {
 } from '../career/state.js'
 import './WorldCupHub.css'
 
+const BracketMatch = ({ fixture, userTeam, isFinal }) => (
+  <div className={`worldcup-hub__bracket-match ${fixture.home === userTeam || fixture.away === userTeam ? 'has-user' : ''} ${isFinal ? 'final-match' : ''}`}>
+    <span className={fixture.home === userTeam ? 'is-user' : ''}>{fixture.home}</span>
+    <span className="worldcup-hub__bracket-score">{fixture.status === 'played' ? `${fixture.score[0]} - ${fixture.score[1]}` : 'vs'}</span>
+    <span className={fixture.away === userTeam ? 'is-user' : ''}>{fixture.away}</span>
+  </div>
+)
+
 const WorldCupHub = ({ state, onPlayFixture, onAdvance, onSave, onLoad }) => {
   const [view, setView] = useState('dashboard')
 
@@ -189,24 +197,81 @@ const WorldCupHub = ({ state, onPlayFixture, onAdvance, onSave, onLoad }) => {
 
           <section className="worldcup-hub__card">
             <h2>Knockout Bracket</h2>
-             <div className="worldcup-hub__bracket">
-              {['R16', 'QF', 'SF', 'F'].map(round => {
-                const roundFixtures = state.knockoutBracket.filter(f => f.round === round)
-                if (roundFixtures.length === 0) return null
-                const roundNames = { R16: 'Round of 16', QF: 'Quarter-Finals', SF: 'Semi-Finals', F: 'Final' }
-                return (
-                  <div key={round} className="worldcup-hub__bracket-round">
-                    <h3>{roundNames[round]}</h3>
-                    {roundFixtures.map(f => (
-                      <div key={f.id} className={`worldcup-hub__bracket-match ${f.home === state.userTeam?.name || f.away === state.userTeam?.name ? 'has-user' : ''}`}>
-                        <span className={f.home === state.userTeam?.name ? 'is-user' : ''}>{f.home}</span>
-                        <span className="worldcup-hub__bracket-score">{f.status === 'played' ? `${f.score[0]} - ${f.score[1]}` : 'vs'}</span>
-                        <span className={f.away === state.userTeam?.name ? 'is-user' : ''}>{f.away}</span>
-                      </div>
-                    ))}
-                  </div>
-                )
-              })}
+             <div className="worldcup-hub__bracket tree-view">
+               {/* Left Side */}
+               <div className="bracket-side left">
+                 {/* R16 Left */}
+                 <div className="bracket-col r16">
+                   <h3>R16</h3>
+                   {state.knockoutBracket.filter(f => f.round === 'R16').slice(0, 4).map(f => (
+                     <BracketMatch key={f.id} fixture={f} userTeam={state.userTeam?.name} />
+                   ))}
+                 </div>
+                 {/* QF Left */}
+                 {state.knockoutBracket.some(f => f.round === 'QF') && (
+                   <div className="bracket-col qf">
+                     <h3>QF</h3>
+                     {state.knockoutBracket.filter(f => f.round === 'QF').slice(0, 2).map(f => (
+                       <BracketMatch key={f.id} fixture={f} userTeam={state.userTeam?.name} />
+                     ))}
+                   </div>
+                 )}
+                 {/* SF Left */}
+                 {state.knockoutBracket.some(f => f.round === 'SF') && (
+                   <div className="bracket-col sf">
+                     <h3>SF</h3>
+                     {state.knockoutBracket.filter(f => f.round === 'SF').slice(0, 1).map(f => (
+                       <BracketMatch key={f.id} fixture={f} userTeam={state.userTeam?.name} />
+                     ))}
+                   </div>
+                 )}
+               </div>
+
+               {/* Final (Center) */}
+               <div className="bracket-center">
+                 {state.knockoutBracket.some(f => f.round === 'F') ? (
+                   <div className="bracket-col final">
+                     <h3>FINAL</h3>
+                     {state.knockoutBracket.filter(f => f.round === 'F').map(f => (
+                       <BracketMatch key={f.id} fixture={f} userTeam={state.userTeam?.name} isFinal />
+                     ))}
+                   </div>
+                 ) : (
+                   <div className="bracket-col final-placeholder">
+                     <h3>FINAL</h3>
+                     <div className="trophy-icon">🏆</div>
+                   </div>
+                 )}
+               </div>
+
+               {/* Right Side */}
+               <div className="bracket-side right">
+                 {/* SF Right */}
+                 {state.knockoutBracket.some(f => f.round === 'SF') && (
+                   <div className="bracket-col sf">
+                     <h3>SF</h3>
+                     {state.knockoutBracket.filter(f => f.round === 'SF').slice(1, 2).map(f => (
+                       <BracketMatch key={f.id} fixture={f} userTeam={state.userTeam?.name} />
+                     ))}
+                   </div>
+                 )}
+                 {/* QF Right */}
+                 {state.knockoutBracket.some(f => f.round === 'QF') && (
+                   <div className="bracket-col qf">
+                     <h3>QF</h3>
+                     {state.knockoutBracket.filter(f => f.round === 'QF').slice(2, 4).map(f => (
+                       <BracketMatch key={f.id} fixture={f} userTeam={state.userTeam?.name} />
+                     ))}
+                   </div>
+                 )}
+                 {/* R16 Right */}
+                 <div className="bracket-col r16">
+                   <h3>R16</h3>
+                   {state.knockoutBracket.filter(f => f.round === 'R16').slice(4, 8).map(f => (
+                     <BracketMatch key={f.id} fixture={f} userTeam={state.userTeam?.name} />
+                   ))}
+                 </div>
+               </div>
             </div>
           </section>
         </>

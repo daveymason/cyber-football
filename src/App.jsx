@@ -7,49 +7,7 @@ import SettingsModal from './components/SettingsModal.jsx'
 import TopBar from './components/TopBar.jsx'
 import WorldCupHub from './components/WorldCupHub.jsx'
 import { bootCareerState, advanceToNextMatchday, ingestPlayedMatch, getNextUserFixture } from './career/state.js'
-
-const TEAMS = [
-  // Group A
-  { name: "Japan", country: "Japan", focus: "Speed/Reflexes", color: "#ff00ff" },
-  { name: "Germany", country: "Germany", focus: "Tactical AI", color: "#44ff44" },
-  { name: "Nigeria", country: "Nigeria", focus: "Bio-Hacking", color: "#ff8800" },
-  { name: "Mexico", country: "Mexico", focus: "Flair/Agility", color: "#00aa00" },
-  // Group B
-  { name: "USA", country: "USA", focus: "Brute Strength", color: "#ff4444" },
-  { name: "England", country: "England", focus: "Durability", color: "#4444ff" },
-  { name: "Iran", country: "Iran", focus: "Counter-Attack", color: "#ffffff" },
-  { name: "South Korea", country: "South Korea", focus: "Speed/Reflexes", color: "#ee3333" },
-  // Group C
-  { name: "Brazil", country: "Brazil", focus: "Flair/Agility", color: "#00ffff" },
-  { name: "France", country: "France", focus: "Tactical AI", color: "#0055a4" },
-  { name: "Saudi Arabia", country: "Saudi Arabia", focus: "Durability", color: "#006c35" },
-  { name: "Poland", country: "Poland", focus: "Cold Efficiency", color: "#dc143c" },
-  // Group D
-  { name: "Argentina", country: "Argentina", focus: "Flair/Agility", color: "#75aadb" },
-  { name: "Netherlands", country: "Netherlands", focus: "Tactical AI", color: "#ff6600" },
-  { name: "Morocco", country: "Morocco", focus: "Speed/Reflexes", color: "#c1272d" },
-  { name: "Australia", country: "Australia", focus: "Brute Strength", color: "#ffcc00" },
-  // Group E
-  { name: "Spain", country: "Spain", focus: "Possession", color: "#aa151b" },
-  { name: "Canada", country: "Canada", focus: "Cold Efficiency", color: "#88ffff" },
-  { name: "Senegal", country: "Senegal", focus: "Speed/Reflexes", color: "#00853f" },
-  { name: "Serbia", country: "Serbia", focus: "Durability", color: "#c7363d" },
-  // Group F
-  { name: "China", country: "China", focus: "Hivemind Cohesion", color: "#ffff00" },
-  { name: "Egypt", country: "Egypt", focus: "Tactical AI", color: "#c8102e" },
-  { name: "Portugal", country: "Portugal", focus: "Flair/Agility", color: "#046a38" },
-  { name: "Ghana", country: "Ghana", focus: "Bio-Hacking", color: "#fcd116" },
-  // Group G
-  { name: "Russia", country: "Russia", focus: "Brute Strength", color: "#d52b1e" },
-  { name: "Switzerland", country: "Switzerland", focus: "Cold Efficiency", color: "#ff0000" },
-  { name: "Colombia", country: "Colombia", focus: "Counter-Attack", color: "#fcd116" },
-  { name: "Tunisia", country: "Tunisia", focus: "Tactical AI", color: "#e70013" },
-  // Group H
-  { name: "India", country: "India", focus: "Hivemind Cohesion", color: "#ff9933" },
-  { name: "Sweden", country: "Sweden", focus: "Cold Efficiency", color: "#006aa7" },
-  { name: "Uruguay", country: "Uruguay", focus: "Durability", color: "#5cbfeb" },
-  { name: "Cameroon", country: "Cameroon", focus: "Brute Strength", color: "#007a5e" },
-]
+import { TEAMS_DB as TEAMS } from './data/db.js'
 
 const DEFAULT_SETTINGS = {
   presentation: 'hybrid',
@@ -74,6 +32,8 @@ function App() {
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [liveScore, setLiveScore] = useState([0, 0])
   const [worldcup, setWorldcup] = useState(null)
+  const [matchContext, setMatchContext] = useState(null) // { type: 'exhibition' | 'tournament', label: string, stage?: string }
+  const [playedMatchIsHome, setPlayedMatchIsHome] = useState(true)
 
   const handlePlayNow = () => {
     setSelectContext('quick')
@@ -96,12 +56,25 @@ function App() {
     const opp = others[Math.floor(Math.random() * others.length)]
     setOpponent(opp)
     setLiveScore([0, 0])
+    
+    // For Quick Match, User is always Home for simplicity unless we want to randomize
+    const isHome = true
+    setMatchContext({ 
+      type: 'exhibition', 
+      label: 'Exhibition Match', 
+      stage: 'Friendly', 
+      isHome,
+      homeTeam: team,
+      awayTeam: opp
+    })
     setScreen('locker')
   }
 
-  const handleKickOff = (events) => {
+  const handleKickOff = (events, isHome) => {
     setMatchEvents(events)
     setLiveScore([0, 0])
+    // Ensure we capture the boolean value, defaulting to true only if undefined
+    setPlayedMatchIsHome(typeof isHome === 'boolean' ? isHome : true)
     setScreen('match')
   }
 
@@ -139,17 +112,35 @@ function App() {
     if (!worldcup) return
     const targetFixture = fixtureOverride ?? getNextUserFixture(worldcup)
     if (!targetFixture) return
+    
+    // Determine Home/Away based on fixture
     const isHome = targetFixture.home === worldcup.userTeam.name
-    const mySide = isHome ? targetFixture.home : targetFixture.away
-    const oppSide = isHome ? targetFixture.away : targetFixture.home
-    const myTeamData = TEAMS.find(t => t.name === mySide)
-    const oppTeamData = TEAMS.find(t => t.name === oppSide)
-    if (!myTeamData || !oppTeamData) return
-    setMyTeam(myTeamData)
-    setOpponent(oppTeamData)
+    const homeName = targetFixture.home
+    const awayName = targetFixture.away
+    
+    // Retrieve team data from the worldcup state lookup to ensure consistency
+    const homeTeamData = worldcup.teamsLookup[homeName] || TEAMS.find(t => t.name === homeName)
+    const awayTeamData = worldcup.teamsLookup[awayName] || TEAMS.find(t => t.name === awayName)
+    
+    if (!homeTeamData || !awayTeamData) return
+
+    // Set the teams for the match context
+    // Note: We are NOT setting myTeam/opponent here in the traditional sense of "Left/Right"
+    // We are setting them based on who is Home and Away for the match engine
+    setMyTeam(isHome ? homeTeamData : awayTeamData) // "My Team" is the user's team
+    setOpponent(isHome ? awayTeamData : homeTeamData) // "Opponent" is the other team
+    
     setMatchEvents([])
     setLiveScore([0, 0])
     setWorldcup(prev => prev ? { ...prev, activeFixtureId: targetFixture.id } : prev)
+    setMatchContext({ 
+      type: 'tournament', 
+      label: 'Cyber World Cup', 
+      stage: 'Group Stage', 
+      isHome,
+      homeTeam: homeTeamData,
+      awayTeam: awayTeamData
+    })
     setScreen('locker')
   }
 
@@ -198,6 +189,7 @@ function App() {
         myTeam={myTeam}
         opponent={opponent}
         score={liveScore}
+        isHome={playedMatchIsHome}
         onMenu={handleMatchRestart}
         onSettings={() => setSettingsOpen(true)}
       />
@@ -215,6 +207,7 @@ function App() {
         <LockerRoom 
           myTeam={myTeam} 
           opponent={opponent} 
+          matchContext={matchContext}
           onKickOff={handleKickOff} 
         />
       )}
@@ -223,6 +216,8 @@ function App() {
           events={matchEvents} 
           myTeam={myTeam}
           opponent={opponent}
+          matchContext={matchContext}
+          isHome={playedMatchIsHome}
           onRestart={handleMatchRestart}
           onScoreUpdate={setLiveScore}
           onMatchEnd={worldcup && worldcup.activeFixtureId ? handleWorldCupMatchComplete : handleMatchRestart}

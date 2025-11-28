@@ -18,6 +18,15 @@
   box-sizing: border-box;
 }
 
+select {
+  background-color: #060918;
+  color: #f2f7ff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-family: inherit;
+}
+
 body {
   min-height: 100vh;
   background: var(--bg-core);
@@ -349,12 +358,50 @@ body {
 }
 
 .formation-select select {
-  background: rgba(255, 255, 255, 0.06);
+  background: #060918;
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  color: var(--text-primary);
+  color: #000000;
   padding: 8px 12px;
   font-family: inherit;
+}
+
+.preview-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.preview-table th {
+  font-weight: 600;
+  color: var(--text-muted);
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.preview-table td {
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.team-preview.home .preview-table th,
+.team-preview.home .preview-table td {
+  text-align: left;
+}
+
+.team-preview.home .preview-table th:last-child,
+.team-preview.home .preview-table td:last-child {
+  text-align: right;
+}
+
+.team-preview.away .preview-table th,
+.team-preview.away .preview-table td {
+  text-align: right;
+}
+
+select option {
+  background-color: #02030f;
+  color: #f2f7ff;
 }
 
 .lineup-grid {
@@ -603,14 +650,23 @@ table {
   justify-content: space-between;
 }
 
-.setting input[type="range"],
-.setting select {
+.setting input[type="range"] {
   width: 100%;
   accent-color: var(--accent);
   background: transparent;
-  color: inherit;
   border: none;
   font-family: inherit;
+}
+
+.setting select {
+  width: 100%;
+  background: #060918;
+  color: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-family: inherit;
+  cursor: pointer;
 }
 
 .setting input[type="checkbox"] {

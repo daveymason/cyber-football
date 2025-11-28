@@ -51,11 +51,18 @@ export const bootCareerState = (teams, selectedTeam) => {
   const groups = assignGroups(teams)
   const userGroup = findUserGroup(groups, selectedTeam.name)
   
+  // Use the roster from the selected team object (from db.js) instead of generating a new one
+  const userSquad = selectedTeam.roster ? selectedTeam.roster.map(p => ({
+    ...p,
+    condition: 100,
+    morale: 80 + Math.floor(Math.random() * 20)
+  })) : generateSquad(selectedTeam.name)
+
   return {
     phase: 'group',
     matchday: 1,
     userTeam: selectedTeam,
-    userSquad: generateSquad(selectedTeam.name),
+    userSquad,
     tactics: { formation: '4-3-3', style: selectedTeam.focus },
     groups,
     userGroup,
