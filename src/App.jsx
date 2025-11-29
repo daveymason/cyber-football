@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import MusicPlayer from './components/MusicPlayer.jsx'
 import { invoke } from '@tauri-apps/api/core'
 import TeamSelect from './components/TeamSelect.jsx'
 import LockerRoom from './components/LockerRoom.jsx'
@@ -213,15 +214,18 @@ function App() {
 
   return (
     <div className={`app palette-${settings.palette}`} style={{ fontSize: `calc(16px * ${settings.fontScale})` }}>
-      <TopBar
-        screen={screen}
-        myTeam={myTeam}
-        opponent={opponent}
-        score={liveScore}
-        isHome={playedMatchIsHome}
-        onMenu={handleMatchRestart}
-        onSettings={() => setSettingsOpen(true)}
-      />
+      <MusicPlayer volume={settings.masterVolume} />
+      {screen !== 'menu' && (
+        <TopBar
+          screen={screen}
+          myTeam={myTeam}
+          opponent={opponent}
+          score={liveScore}
+          isHome={playedMatchIsHome}
+          onMenu={handleMatchRestart}
+          onSettings={() => setSettingsOpen(true)}
+        />
+      )}
       {screen === 'menu' && (
         <MainMenu
           onPlayNow={handlePlayNow}

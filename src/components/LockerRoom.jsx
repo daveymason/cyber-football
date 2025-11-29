@@ -39,7 +39,7 @@ const avgRating = (lineup) => {
 
 function LockerRoom({ myTeam, opponent, matchContext, onKickOff }) {
   const [formation, setFormation] = useState('4-3-3')
-  const [activeTab, setActiveTab] = useState('tactics')
+  const [activeTab, setActiveTab] = useState('squads')
 
   // Explicitly grab Home and Away teams from context if available, or derive them
   const isHome = matchContext?.isHome ?? true
@@ -178,79 +178,16 @@ function LockerRoom({ myTeam, opponent, matchContext, onKickOff }) {
     <div className="screen locker-room">
       <h1 className="title">Matchday Control Room</h1>
 
-      <div className="h2h-preview" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '2rem', marginBottom: '2rem' }}>
-        <div className={`team-preview home`} style={{ flex: 1, textAlign: 'left' }}>
-          <p className="subhead">Home</p>
-          <h2 style={{ color: leftTeam?.color }}>{leftTeam?.name}</h2>
-          <p>{leftTeam?.focus}</p>
-          <p><strong>Overall:</strong> {leftRating}</p>
-          <div className="formation-display" style={{ display: 'flex', flexDirection: 'column', gap: '6px', alignItems: 'flex-start', marginTop: '12px' }}>
-            <span style={{ fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#8ea0c4' }}>Formation</span>
-            <div style={{ 
-              background: 'rgba(255, 255, 255, 0.06)', 
-              borderRadius: '10px', 
-              border: '1px solid rgba(255, 255, 255, 0.12)', 
-              color: '#f2f7ff', 
-              padding: '8px 12px',
-              fontFamily: 'inherit',
-              minWidth: '120px',
-              textAlign: 'center'
-            }}>
-              {leftFormation}
-            </div>
-          </div>
-          <table className="preview-table" style={{ marginTop: '12px' }}>
-            <thead><tr><th>Slot</th><th>Player</th><th>R</th></tr></thead>
-            <tbody>
-              {leftLineup.map(s => (
-                <tr key={s.slot + s.player.name}>
-                  <td>{s.slot}</td>
-                  <td>{s.player.name}</td>
-                  <td>{s.player.rating}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <div className="vs" style={{ alignSelf: 'center', fontSize: '3rem', fontWeight: 'bold', color: '#00ffcc' }}>VS</div>
-
-        <div className={`team-preview away`} style={{ flex: 1, textAlign: 'right' }}>
-          <p className="subhead">Away</p>
-          <h2 style={{ color: rightTeam?.color }}>{rightTeam?.name}</h2>
-          <p>{rightTeam?.focus}</p>
-          <p><strong>Overall:</strong> {rightRating}</p>
-          <div className="formation-display" style={{ display: 'flex', flexDirection: 'column', gap: '6px', alignItems: 'flex-end', marginTop: '12px' }}>
-            <span style={{ fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#8ea0c4' }}>Formation</span>
-            <div style={{ 
-              background: 'rgba(255, 255, 255, 0.06)', 
-              borderRadius: '10px', 
-              border: '1px solid rgba(255, 255, 255, 0.12)', 
-              color: '#f2f7ff', 
-              padding: '8px 12px',
-              fontFamily: 'inherit',
-              minWidth: '120px',
-              textAlign: 'center'
-            }}>
-              {rightFormation}
-            </div>
-          </div>
-          <table className="preview-table" style={{ marginLeft: 'auto', marginTop: '12px' }}>
-            <thead><tr><th>Slot</th><th>Player</th><th>R</th></tr></thead>
-            <tbody>
-              {rightLineup.map(s => (
-                <tr key={s.slot + s.player.name}>
-                  <td>{s.slot}</td>
-                  <td>{s.player.name}</td>
-                  <td>{s.player.rating}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
       <div className="locker-tabs" style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', borderBottom: '1px solid #333' }}>
+        <button 
+          onClick={() => setActiveTab('squads')}
+          style={{ 
+            background: 'none', border: 'none', color: activeTab === 'squads' ? '#00ffcc' : '#888', 
+            padding: '1rem', cursor: 'pointer', fontSize: '1.1rem', borderBottom: activeTab === 'squads' ? '2px solid #00ffcc' : 'none'
+          }}
+        >
+          Squads
+        </button>
         <button 
           onClick={() => setActiveTab('tactics')}
           style={{ 
@@ -270,6 +207,80 @@ function LockerRoom({ myTeam, opponent, matchContext, onKickOff }) {
           Match Info
         </button>
       </div>
+
+      {activeTab === 'squads' && (
+        <div className="h2h-preview" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '2rem', marginBottom: '2rem' }}>
+          <div className={`team-preview home`} style={{ flex: 1, textAlign: 'left' }}>
+            <p className="subhead">Home</p>
+            <h2 style={{ color: leftTeam?.color }}>{leftTeam?.name}</h2>
+            <p>{leftTeam?.focus}</p>
+            <p><strong>Overall:</strong> {leftRating}</p>
+            <div className="formation-display" style={{ display: 'flex', flexDirection: 'column', gap: '6px', alignItems: 'flex-start', marginTop: '12px' }}>
+              <span style={{ fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#8ea0c4' }}>Formation</span>
+              <div style={{ 
+                background: 'rgba(255, 255, 255, 0.06)', 
+                borderRadius: '10px', 
+                border: '1px solid rgba(255, 255, 255, 0.12)', 
+                color: '#f2f7ff', 
+                padding: '8px 12px',
+                fontFamily: 'inherit',
+                minWidth: '120px',
+                textAlign: 'center'
+              }}>
+                {leftFormation}
+              </div>
+            </div>
+            <table className="preview-table" style={{ marginTop: '12px' }}>
+              <thead><tr><th>Slot</th><th>Player</th><th>R</th></tr></thead>
+              <tbody>
+                {leftLineup.map(s => (
+                  <tr key={s.slot + s.player.name}>
+                    <td>{s.slot}</td>
+                    <td>{s.player.name}</td>
+                    <td>{s.player.rating}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="vs" style={{ alignSelf: 'center', fontSize: '3rem', fontWeight: 'bold', color: '#00ffcc' }}>VS</div>
+
+          <div className={`team-preview away`} style={{ flex: 1, textAlign: 'right' }}>
+            <p className="subhead">Away</p>
+            <h2 style={{ color: rightTeam?.color }}>{rightTeam?.name}</h2>
+            <p>{rightTeam?.focus}</p>
+            <p><strong>Overall:</strong> {rightRating}</p>
+            <div className="formation-display" style={{ display: 'flex', flexDirection: 'column', gap: '6px', alignItems: 'flex-end', marginTop: '12px' }}>
+              <span style={{ fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#8ea0c4' }}>Formation</span>
+              <div style={{ 
+                background: 'rgba(255, 255, 255, 0.06)', 
+                borderRadius: '10px', 
+                border: '1px solid rgba(255, 255, 255, 0.12)', 
+                color: '#f2f7ff', 
+                padding: '8px 12px',
+                fontFamily: 'inherit',
+                minWidth: '120px',
+                textAlign: 'center'
+              }}>
+                {rightFormation}
+              </div>
+            </div>
+            <table className="preview-table" style={{ marginLeft: 'auto', marginTop: '12px' }}>
+              <thead><tr><th>Slot</th><th>Player</th><th>R</th></tr></thead>
+              <tbody>
+                {rightLineup.map(s => (
+                  <tr key={s.slot + s.player.name}>
+                    <td>{s.slot}</td>
+                    <td>{s.player.name}</td>
+                    <td>{s.player.rating}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
 
       {activeTab === 'tactics' && (
         <section className="tactics-panel">
@@ -395,12 +406,16 @@ function LockerRoom({ myTeam, opponent, matchContext, onKickOff }) {
       )}
 
       <div className="tactics-footer">
-        <div>
-          <p className="subhead">Substitutions</p>
-          <p className="lead">
-            Bench players load neural routines instantly. Select a bench unit, then tap their target slot to schedule the change.
-          </p>
-        </div>
+        {activeTab === 'tactics' ? (
+          <div>
+            <p className="subhead">Substitutions</p>
+            <p className="lead">
+              Bench players load neural routines instantly. Select a bench unit, then tap their target slot to schedule the change.
+            </p>
+          </div>
+        ) : (
+          <div />
+        )}
         <button className="kick-off-btn" onClick={handleKickOff}>
           Launch Match
         </button>

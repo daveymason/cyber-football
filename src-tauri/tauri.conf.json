@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Cyber Football Manager",
+  "productName": "Cyber Football Coach",
   "version": "0.1.0",
   "identifier": "com.cyberfootball.app",
   "build": {
@@ -12,11 +12,22 @@
   "app": {
     "windows": [
       {
-        "fullscreen": false,
+        "fullscreen": true,
         "height": 800,
         "width": 1200,
-        "title": "Cyber Football Manager"
+        "title": "Cyber Football Coach"
       }
+    ]
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
     ]
   }
 }

@@ -688,6 +688,47 @@ table {
   --accent-strong: #ffe27a;
 }
 
+/* Music Toast */
+.music-toast {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  background: var(--card-bg);
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  padding: 16px 24px;
+  z-index: 9999;
+  box-shadow: 0 0 20px rgba(56, 255, 181, 0.2);
+  animation: slideIn 0.5s ease-out;
+  pointer-events: none;
+  min-width: 250px;
+}
+
+.toast-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.toast-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.toast-artist {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
 @media (max-width: 720px) {
   .screen {
     padding: 48px 20px;
