@@ -2,6 +2,8 @@
 
 use rand::Rng;
 use serde::{Deserialize, Serialize};
+use std::fs;
+use tauri::Manager;
 
 #[derive(Clone, Serialize)]
 struct MatchEvent {
@@ -32,6 +34,25 @@ fn count_attackers(players: &Vec<Player>) -> u8 {
         .map(|p| players.iter().filter(|pl| pl.position == *p).count() as u8)
         .sum();
     attackers
+}
+
+#[tauri::command]
+fn save_game(app_handle: tauri::AppHandle, data: String) -> Result<(), String> {
+    let path = app_handle.path().app_data_dir().map_err(|e| e.to_string())?.join("savegame.json");
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent).map_err(|e| e.to_string())?;
+    }
+    fs::write(path, data).map_err(|e| e.to_string())?;
+    Ok(())
+}
+
+#[tauri::command]
+fn load_game(app_handle: tauri::AppHandle) -> Result<String, String> {
+    let path = app_handle.path().app_data_dir().map_err(|e| e.to_string())?.join("savegame.json");
+    if !path.exists() {
+        return Ok("".to_string());
+    }
+    fs::read_to_string(path).map_err(|e| e.to_string())
 }
 
 #[tauri::command]
@@ -128,7 +149,7 @@ fn simulate_match(home: Team, away: Team) -> Vec<MatchEvent> {
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![simulate_match])
+        .invoke_handler(tauri::generate_handler![simulate_match, save_game, load_game])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

@@ -682,8 +682,14 @@
 /* Eliminated / Champion */
 .worldcup-hub__eliminated,
 .worldcup-hub__champion {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  padding: 8rem 2rem;
+  padding: 2rem;
+  width: 100%;
 }
 
 .worldcup-hub__eliminated h1 {

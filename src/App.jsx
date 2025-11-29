@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { invoke } from '@tauri-apps/api/core'
 import TeamSelect from './components/TeamSelect.jsx'
 import LockerRoom from './components/LockerRoom.jsx'
 import MatchFeed from './components/MatchFeed.jsx'
@@ -182,6 +183,34 @@ function App() {
     handleRestart()
   }
 
+  const handleSaveGame = async () => {
+    if (!worldcup) return
+    try {
+      await invoke('save_game', { data: JSON.stringify(worldcup) })
+      alert('Game Saved!')
+    } catch (e) {
+      console.error('Failed to save game:', e)
+      alert('Failed to save game: ' + e)
+    }
+  }
+
+  const handleLoadGame = async () => {
+    try {
+      const saved = await invoke('load_game')
+      if (saved) {
+        const loadedState = JSON.parse(saved)
+        setWorldcup(loadedState)
+        setScreen('worldcup')
+        alert('Game Loaded!')
+      } else {
+        alert('No saved game found.')
+      }
+    } catch (e) {
+      console.error('Failed to load game:', e)
+      alert('Failed to load game: ' + e)
+    }
+  }
+
   return (
     <div className={`app palette-${settings.palette}`} style={{ fontSize: `calc(16px * ${settings.fontScale})` }}>
       <TopBar
@@ -197,6 +226,7 @@ function App() {
         <MainMenu
           onPlayNow={handlePlayNow}
           onStartWorldCup={handleStartWorldCup}
+          onLoadGame={handleLoadGame}
           onOpenSettings={() => setSettingsOpen(true)}
         />
       )}
@@ -228,11 +258,8 @@ function App() {
           state={worldcup}
           onAdvance={handleWorldCupAdvance}
           onPlayFixture={handleWorldCupPlayFixture}
-          onSave={() => localStorage.setItem('worldcup-save', JSON.stringify(worldcup))}
-          onLoad={() => {
-            const saved = localStorage.getItem('worldcup-save')
-            if (saved) setWorldcup(JSON.parse(saved))
-          }}
+          onSave={handleSaveGame}
+          onLoad={handleLoadGame}
         />
       )}
       {settingsOpen && (

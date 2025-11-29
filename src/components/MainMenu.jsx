@@ -1,6 +1,6 @@
 import './MainMenu.css'
 
-const MainMenu = ({ onPlayNow, onStartWorldCup, onOpenSettings }) => {
+const MainMenu = ({ onPlayNow, onStartWorldCup, onLoadGame, onOpenSettings }) => {
   return (
     <div className="main-menu">
       <div className="main-menu__logo">
@@ -15,13 +15,16 @@ const MainMenu = ({ onPlayNow, onStartWorldCup, onOpenSettings }) => {
         <button className="main-menu__btn main-menu__btn--primary" onClick={onStartWorldCup}>
           World Cup
         </button>
+        <button className="main-menu__btn" onClick={onLoadGame}>
+          Load Game
+        </button>
         <button className="main-menu__btn" onClick={onOpenSettings}>
           Settings
         </button>
       </div>
       
       <div className="main-menu__footer">
-        <p>v0.1.0 • Neon League Systems</p>
+        <p>v0.1.0 • FatHead Games</p>
       </div>
     </div>
   )
