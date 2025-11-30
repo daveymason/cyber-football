@@ -67,29 +67,44 @@ function MusicPlayer({ volume = 70 }) {
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
+    
     audio.src = currentTrack.src;
     audio.volume = volume / 100;
     
-    const playPromise = audio.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(error => {
-        console.log("Autoplay prevented:", error);
-      });
-    }
+    const playAudio = async () => {
+      try {
+        await audio.play();
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 4000);
+      } catch (error) {
+        console.log("Autoplay prevented. Waiting for user interaction...", error);
+        // Add one-time listener to start audio on first interaction
+        const handleInteraction = () => {
+          audio.play().then(() => {
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 4000);
+          }).catch(e => console.error("Play failed after interaction:", e));
+          
+          document.removeEventListener('click', handleInteraction);
+          document.removeEventListener('keydown', handleInteraction);
+        };
+        
+        document.addEventListener('click', handleInteraction);
+        document.addEventListener('keydown', handleInteraction);
+      }
+    };
 
-    setShowToast(true);
-    const timer = setTimeout(() => setShowToast(false), 4000);
+    playAudio();
 
     audio.addEventListener("ended", handleEnded);
     return () => {
       audio.removeEventListener("ended", handleEnded);
-      clearTimeout(timer);
     };
   }, [currentTrack, handleEnded]); // volume excluded to prevent restart
 
   return (
     <>
-      <audio ref={audioRef} autoPlay />
+      <audio ref={audioRef} />
       {showToast && (
         <div className="music-toast">
           <div className="toast-label">Now Playing</div>
