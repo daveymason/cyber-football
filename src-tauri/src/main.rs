@@ -56,7 +56,7 @@ fn load_game(app_handle: tauri::AppHandle) -> Result<String, String> {
 }
 
 #[tauri::command]
-fn simulate_match(home: Team, away: Team) -> Vec<MatchEvent> {
+fn simulate_match(home: Team, away: Team, is_knockout: bool) -> Vec<MatchEvent> {
     let mut events: Vec<MatchEvent> = Vec::new();
     let mut score = (0u8, 0u8);
     let mut rng = rand::thread_rng();
@@ -73,8 +73,37 @@ fn simulate_match(home: Team, away: Team) -> Vec<MatchEvent> {
     ];
 
     // compute base strengths from team rating (plus slight randomness)
-    let home_strength = (home.rating as f64) + (rng.gen_range(-4.0..4.0));
+    let mut home_strength = (home.rating as f64) + (rng.gen_range(-4.0..4.0));
     let away_strength = (away.rating as f64) + (rng.gen_range(-4.0..4.0));
+
+    // Tactical Bonus Logic
+    // Rock-Paper-Scissors style tactical advantage
+    // 4-3-3 beats 5-3-2 (Overwhelms defense)
+    // 5-3-2 beats 4-4-2 (Solid defense vs balanced)
+    // 4-4-2 beats 3-5-2 (Wide coverage vs midfield overload)
+    // 3-5-2 beats 4-3-3 (Midfield dominance vs spread out)
+    // 3-4-3 beats 4-2-3-1 (Aggression vs Structure)
+    // 4-2-3-1 beats 4-4-2 (Control vs Flat)
+    
+    let tactical_bonus = match (home.formation.as_str(), away.formation.as_str()) {
+        ("4-3-3", "5-3-2") => 3.0,
+        ("5-3-2", "4-4-2") => 3.0,
+        ("4-4-2", "3-5-2") => 3.0,
+        ("3-5-2", "4-3-3") => 3.0,
+        ("3-4-3", "4-2-3-1") => 3.0,
+        ("4-2-3-1", "4-4-2") => 3.0,
+        
+        // Inverse
+        ("5-3-2", "4-3-3") => -3.0,
+        ("4-4-2", "5-3-2") => -3.0,
+        ("3-5-2", "4-4-2") => -3.0,
+        ("4-3-3", "3-5-2") => -3.0,
+        ("4-2-3-1", "3-4-3") => -3.0,
+        ("4-4-2", "4-2-3-1") => -3.0,
+        _ => 0.0,
+    };
+    
+    home_strength += tactical_bonus;
 
     // attacker counts to bias goal probability
     let home_attackers = count_attackers(&home.players) as f64;
@@ -144,12 +173,48 @@ fn simulate_match(home: Team, away: Team) -> Vec<MatchEvent> {
         });
     }
 
+    // Penalty Shootout Logic
+    if is_knockout && score.0 == score.1 {
+        events.push(MatchEvent {
+            minute: 120,
+            message: "Full Time ended in a draw. Proceeding to Penalty Shootout!".to_string(),
+            is_goal: false,
+            score,
+        });
+
+        // Simple coin flip for winner for now, but we could simulate shots
+        let home_wins_pens = rng.gen_bool(0.5);
+        
+        if home_wins_pens {
+            score.0 += 1;
+            events.push(MatchEvent {
+                minute: 120,
+                message: format!("{} wins on penalties!", home.name),
+                is_goal: true,
+                score,
+            });
+        } else {
+            score.1 += 1;
+            events.push(MatchEvent {
+                minute: 120,
+                message: format!("{} wins on penalties!", away.name),
+                is_goal: true,
+                score,
+            });
+        }
+    }
+
     events
+}
+
+#[tauri::command]
+fn exit_app(app_handle: tauri::AppHandle) {
+    app_handle.exit(0);
 }
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![simulate_match, save_game, load_game])
+        .invoke_handler(tauri::generate_handler![simulate_match, save_game, load_game, exit_app])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

@@ -1,3 +1,5 @@
+import { invoke } from '@tauri-apps/api/core'
+
 const speedLabels = {
   1: 'Cinematic Broadcast',
   2: 'Balanced Hybrid',
@@ -17,6 +19,10 @@ function SettingsModal({ settings, onClose, onChange }) {
     onChange(key, parsedValue)
   }
 
+  const handleExit = async () => {
+    await invoke('exit_app')
+  }
+
   return (
     <div className="settings-overlay">
       <div className="settings-panel" role="dialog" aria-modal="true" aria-label="Settings">
@@ -26,7 +32,10 @@ function SettingsModal({ settings, onClose, onChange }) {
             <h2>Simulation Settings</h2>
             <p className="lead">Prototype controls for the 2076 broadcast build. Most settings persist locally.</p>
           </div>
-          <button className="ghost-btn" onClick={onClose}>Close</button>
+          <div style={{ display: 'flex', gap: '12px' }}>
+            <button className="ghost-btn" onClick={handleExit} style={{ borderColor: '#ff4444', color: '#ff4444' }}>Exit Game</button>
+            <button className="ghost-btn" onClick={onClose}>Close</button>
+          </div>
         </header>
 
         <section>

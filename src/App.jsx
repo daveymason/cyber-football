@@ -138,7 +138,7 @@ function App() {
     setMatchContext({ 
       type: 'tournament', 
       label: 'Cyber World Cup', 
-      stage: 'Group Stage', 
+      stage: worldcup.phase === 'knockout' ? worldcup.knockoutRound : 'Group Stage', 
       isHome,
       homeTeam: homeTeamData,
       awayTeam: awayTeamData
@@ -264,6 +264,7 @@ function App() {
           onPlayFixture={handleWorldCupPlayFixture}
           onSave={handleSaveGame}
           onLoad={handleLoadGame}
+          onUpdateState={setWorldcup}
         />
       )}
       {settingsOpen && (

@@ -1,11 +1,6 @@
 import { useState, useEffect } from 'react'
 import { invoke } from '@tauri-apps/api/core'
-
-const FORMATIONS = {
-  '4-3-3': ['GK', 'LB', 'CB', 'CB', 'RB', 'CDM', 'CM', 'CAM', 'LW', 'ST', 'RW'],
-  '3-4-3': ['GK', 'CB', 'CB', 'CB', 'LM', 'CM', 'CM', 'RM', 'LW', 'ST', 'RW'],
-  '4-2-3-1': ['GK', 'LB', 'CB', 'CB', 'RB', 'CDM', 'CDM', 'CAM', 'LW', 'ST', 'RW']
-}
+import { FORMATIONS, FORMATION_LABELS } from '../data/formations.js'
 
 const getArchetype = (pos) => {
   if (pos === 'GK') return 'Reflex Stopper'
@@ -35,6 +30,71 @@ const avgRating = (lineup) => {
   if (!lineup || lineup.length === 0) return 0
   const total = lineup.reduce((s, slot) => s + (slot.player?.rating || 0), 0)
   return Math.round(total / lineup.length)
+}
+
+const getFormationCoords = (formation, index) => {
+  // GK is always index 0
+  if (index === 0) return { bottom: '2%', left: '50%', transform: 'translateX(-50%)' }
+
+  const formations = {
+    '4-3-3': [
+      // Defenders (1-4): LB, CB, CB, RB
+      { bottom: '18%', left: '15%' }, { bottom: '18%', left: '38%' }, { bottom: '18%', left: '62%' }, { bottom: '18%', left: '85%' },
+      // Midfielders (5-7): CM, CDM, CM
+      { bottom: '45%', left: '20%' }, { bottom: '35%', left: '50%' }, { bottom: '45%', left: '80%' },
+      // Forwards (8-10): LW, ST, RW
+      { bottom: '75%', left: '15%' }, { bottom: '82%', left: '50%' }, { bottom: '75%', left: '85%' }
+    ],
+    '4-4-2': [
+      // Defenders
+      { bottom: '18%', left: '15%' }, { bottom: '18%', left: '38%' }, { bottom: '18%', left: '62%' }, { bottom: '18%', left: '85%' },
+      // Midfielders
+      { bottom: '45%', left: '15%' }, { bottom: '45%', left: '38%' }, { bottom: '45%', left: '62%' }, { bottom: '45%', left: '85%' },
+      // Forwards
+      { bottom: '80%', left: '35%' }, { bottom: '80%', left: '65%' }
+    ],
+    '3-5-2': [
+      // Defenders (3)
+      { bottom: '18%', left: '25%' }, { bottom: '18%', left: '50%' }, { bottom: '18%', left: '75%' },
+      // Midfielders (5)
+      { bottom: '45%', left: '10%' }, { bottom: '45%', left: '30%' }, { bottom: '35%', left: '50%' }, { bottom: '45%', left: '70%' }, { bottom: '45%', left: '90%' },
+      // Forwards (2)
+      { bottom: '80%', left: '35%' }, { bottom: '80%', left: '65%' }
+    ],
+    '5-3-2': [
+      // Defenders (5)
+      { bottom: '20%', left: '10%' }, { bottom: '18%', left: '30%' }, { bottom: '15%', left: '50%' }, { bottom: '18%', left: '70%' }, { bottom: '20%', left: '90%' },
+      // Midfielders (3)
+      { bottom: '45%', left: '30%' }, { bottom: '45%', left: '50%' }, { bottom: '45%', left: '70%' },
+      // Forwards (2)
+      { bottom: '75%', left: '35%' }, { bottom: '75%', left: '65%' }
+    ],
+    '3-4-3': [
+      // Defenders (3)
+      { bottom: '18%', left: '25%' }, { bottom: '18%', left: '50%' }, { bottom: '18%', left: '75%' },
+      // Midfielders (4)
+      { bottom: '45%', left: '15%' }, { bottom: '45%', left: '38%' }, { bottom: '45%', left: '62%' }, { bottom: '45%', left: '85%' },
+      // Forwards (3)
+      { bottom: '75%', left: '15%' }, { bottom: '82%', left: '50%' }, { bottom: '75%', left: '85%' }
+    ],
+    '4-2-3-1': [
+      // Defenders (4)
+      { bottom: '18%', left: '15%' }, { bottom: '18%', left: '38%' }, { bottom: '18%', left: '62%' }, { bottom: '18%', left: '85%' },
+      // CDMs (2)
+      { bottom: '35%', left: '35%' }, { bottom: '35%', left: '65%' },
+      // CAMs/Wingers (3)
+      { bottom: '60%', left: '20%' }, { bottom: '60%', left: '50%' }, { bottom: '60%', left: '80%' },
+      // ST (1)
+      { bottom: '82%', left: '50%' }
+    ]
+  }
+
+  const layout = formations[formation] || formations['4-3-3']
+  // Adjust index for non-GK players (index 1 becomes layout[0])
+  const pos = layout[index - 1]
+  
+  if (!pos) return { bottom: '0', left: '0' } // Fallback
+  return { ...pos, transform: 'translateX(-50%)' }
 }
 
 function LockerRoom({ myTeam, opponent, matchContext, onKickOff }) {
@@ -136,8 +196,10 @@ function LockerRoom({ myTeam, opponent, matchContext, onKickOff }) {
     const home = isHome ? myTeamData : oppTeamData
     const away = isHome ? oppTeamData : myTeamData
 
+    const isKnockout = matchContext?.type === 'tournament' && matchContext?.stage !== 'Group Stage'
+
     try {
-      const events = await invoke('simulate_match', { home, away })
+      const events = await invoke('simulate_match', { home, away, isKnockout })
       // Pass the isHome flag to ensure MatchFeed knows the correct orientation
       onKickOff(events, isHome)
     } catch (e) {
@@ -283,79 +345,57 @@ function LockerRoom({ myTeam, opponent, matchContext, onKickOff }) {
       )}
 
       {activeTab === 'tactics' && (
-        <section className="tactics-panel">
+        <section className="worldcup-hub__tactics-section">
           <div className="tactics-header">
             <div>
               <p className="eyebrow">Tactics</p>
               <h3>Formation &amp; Lineup ({isHome ? 'Home' : 'Away'})</h3>
             </div>
-            <label className="formation-select">
-              <span>Formation</span>
+            <div className="formation-select">
+              <label>Formation</label>
               <select value={formation} onChange={(e) => handleFormationChange(e.target.value)}>
                 {Object.keys(FORMATIONS).map(key => (
-                  <option key={key} value={key}>{key}</option>
+                  <option key={key} value={key}>{FORMATION_LABELS[key] || key}</option>
                 ))}
               </select>
-            </label>
+            </div>
           </div>
 
-          <div className="lineup-grid">
-            <div>
-              <div className="lineup-header">
-                <p className="subhead">Starting XI</p>
-                <small>Select a bench player then tap a starter to swap.</small>
-              </div>
-              <table className="lineup-table">
-                <thead>
-                  <tr>
-                    <th>Slot</th>
-                    <th>Player</th>
-                    <th>Rating</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {myLineup.map((slot, idx) => (
-                    <tr key={slot.slot + slot.player.name} onClick={() => handleStarterSwap(idx)}>
-                      <td>{slot.slot}</td>
-                      <td>
-                        <div>
-                          <strong>{slot.player.name}</strong>
-                          <small>{slot.player.archetype}</small>
-                        </div>
-                      </td>
-                      <td>{slot.player.rating}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          <div className="tactics-layout">
+            <div className="squad-list">
+              <h3>Bench & Reserves</h3>
+              {myBench.map((player) => (
+                <div 
+                  key={player.name} 
+                  className={`squad-item ${selectedBench?.name === player.name ? 'selected' : ''}`}
+                  onClick={() => handleBenchSelect(player)}
+                >
+                  <span className="squad-item-pos">{player.position}</span>
+                  <span className="squad-item-name">{player.name}</span>
+                  <span className="squad-item-rating">{player.rating}</span>
+                </div>
+              ))}
             </div>
 
-            <div>
-              <div className="lineup-header">
-                <p className="subhead">Bench &amp; Impact Units</p>
-              </div>
-              <table className="bench-table">
-                <thead>
-                  <tr>
-                    <th>Player</th>
-                    <th>Role</th>
-                    <th>Rating</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {myBench.map(player => (
-                    <tr 
-                      key={player.name}
-                      className={selectedBench?.name === player.name ? 'selected' : ''}
-                      onClick={() => handleBenchSelect(player)}
-                    >
-                      <td>{player.name}</td>
-                      <td>{player.archetype}</td>
-                      <td>{player.rating}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="pitch-container">
+              {myLineup.map((slot, idx) => {
+                const coords = getFormationCoords(formation, idx)
+                return (
+                  <div 
+                    key={slot.slot + slot.player.name}
+                    className="pitch-player"
+                    style={coords}
+                    onClick={() => handleStarterSwap(idx)}
+                  >
+                    <div className="player-dot">
+                      {slot.player.rating}
+                    </div>
+                    <div className="player-name">
+                      {slot.player.name} <span style={{color: '#38ffb5'}}>({slot.slot})</span>
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           </div>
         </section>

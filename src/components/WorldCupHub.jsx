@@ -4,6 +4,7 @@ import {
   getGroupStandings, 
   getAllGroupStandings
 } from '../career/state.js'
+import { FORMATIONS, FORMATION_LABELS } from '../data/formations.js'
 import './WorldCupHub.css'
 
 const BracketMatch = ({ fixture, userTeam, isFinal }) => (
@@ -14,14 +15,111 @@ const BracketMatch = ({ fixture, userTeam, isFinal }) => (
   </div>
 )
 
-const WorldCupHub = ({ state, onPlayFixture, onAdvance, onSave, onLoad }) => {
+const WorldCupHub = ({ state, onPlayFixture, onAdvance, onSave, onLoad, onUpdateState }) => {
   const [view, setView] = useState('dashboard')
+  const [selectedPlayer, setSelectedPlayer] = useState(null)
 
   if (!state) return null
   
   const nextFixture = getNextUserFixture(state)
   const allStandings = getAllGroupStandings(state)
   const userGroupStandings = state.userGroup ? getGroupStandings(state, state.userGroup) : []
+  
+  // Helper to get current lineup (first 11) and bench
+  const getLineup = () => state.userSquad ? state.userSquad.slice(0, 11) : []
+  const getBench = () => state.userSquad ? state.userSquad.slice(11) : []
+
+  const handlePlayerClick = (player, index, isBench) => {
+    if (!selectedPlayer) {
+      setSelectedPlayer({ player, index, isBench })
+    } else {
+      // Swap logic
+      const newSquad = [...state.userSquad]
+      const sourceIndex = selectedPlayer.isBench ? 11 + selectedPlayer.index : selectedPlayer.index
+      const targetIndex = isBench ? 11 + index : index
+      
+      const temp = newSquad[sourceIndex]
+      newSquad[sourceIndex] = newSquad[targetIndex]
+      newSquad[targetIndex] = temp
+      
+      // Update state including teamsLookup to ensure match engine sees the changes
+      const updatedUserTeam = { ...state.userTeam, roster: newSquad }
+      const updatedTeamsLookup = { ...state.teamsLookup, [state.userTeam.name]: updatedUserTeam }
+      
+      onUpdateState({ 
+        ...state, 
+        userSquad: newSquad,
+        userTeam: updatedUserTeam,
+        teamsLookup: updatedTeamsLookup
+      })
+      setSelectedPlayer(null)
+    }
+  }
+
+  const getFormationCoords = (formation, index) => {
+    // GK is always index 0
+    if (index === 0) return { bottom: '2%', left: '50%', transform: 'translateX(-50%)' }
+
+    const formations = {
+      '4-3-3': [
+        // Defenders (1-4): LB, CB, CB, RB
+        { bottom: '18%', left: '15%' }, { bottom: '18%', left: '38%' }, { bottom: '18%', left: '62%' }, { bottom: '18%', left: '85%' },
+        // Midfielders (5-7): CM, CDM, CM
+        { bottom: '45%', left: '20%' }, { bottom: '35%', left: '50%' }, { bottom: '45%', left: '80%' },
+        // Forwards (8-10): LW, ST, RW
+        { bottom: '75%', left: '15%' }, { bottom: '82%', left: '50%' }, { bottom: '75%', left: '85%' }
+      ],
+      '4-4-2': [
+        // Defenders
+        { bottom: '18%', left: '15%' }, { bottom: '18%', left: '38%' }, { bottom: '18%', left: '62%' }, { bottom: '18%', left: '85%' },
+        // Midfielders
+        { bottom: '45%', left: '15%' }, { bottom: '45%', left: '38%' }, { bottom: '45%', left: '62%' }, { bottom: '45%', left: '85%' },
+        // Forwards
+        { bottom: '80%', left: '35%' }, { bottom: '80%', left: '65%' }
+      ],
+      '3-5-2': [
+        // Defenders (3)
+        { bottom: '18%', left: '25%' }, { bottom: '18%', left: '50%' }, { bottom: '18%', left: '75%' },
+        // Midfielders (5)
+        { bottom: '45%', left: '10%' }, { bottom: '45%', left: '30%' }, { bottom: '35%', left: '50%' }, { bottom: '45%', left: '70%' }, { bottom: '45%', left: '90%' },
+        // Forwards (2)
+        { bottom: '80%', left: '35%' }, { bottom: '80%', left: '65%' }
+      ],
+      '5-3-2': [
+        // Defenders (5)
+        { bottom: '20%', left: '10%' }, { bottom: '18%', left: '30%' }, { bottom: '15%', left: '50%' }, { bottom: '18%', left: '70%' }, { bottom: '20%', left: '90%' },
+        // Midfielders (3)
+        { bottom: '45%', left: '30%' }, { bottom: '45%', left: '50%' }, { bottom: '45%', left: '70%' },
+        // Forwards (2)
+        { bottom: '75%', left: '35%' }, { bottom: '75%', left: '65%' }
+      ],
+      '3-4-3': [
+        // Defenders (3)
+        { bottom: '18%', left: '25%' }, { bottom: '18%', left: '50%' }, { bottom: '18%', left: '75%' },
+        // Midfielders (4)
+        { bottom: '45%', left: '15%' }, { bottom: '45%', left: '38%' }, { bottom: '45%', left: '62%' }, { bottom: '45%', left: '85%' },
+        // Forwards (3)
+        { bottom: '75%', left: '15%' }, { bottom: '82%', left: '50%' }, { bottom: '75%', left: '85%' }
+      ],
+      '4-2-3-1': [
+        // Defenders (4)
+        { bottom: '18%', left: '15%' }, { bottom: '18%', left: '38%' }, { bottom: '18%', left: '62%' }, { bottom: '18%', left: '85%' },
+        // CDMs (2)
+        { bottom: '35%', left: '35%' }, { bottom: '35%', left: '65%' },
+        // CAMs/Wingers (3)
+        { bottom: '60%', left: '20%' }, { bottom: '60%', left: '50%' }, { bottom: '60%', left: '80%' },
+        // ST (1)
+        { bottom: '82%', left: '50%' }
+      ]
+    }
+
+    const layout = formations[formation] || formations['4-3-3']
+    // Adjust index for non-GK players (index 1 becomes layout[0])
+    const pos = layout[index - 1]
+    
+    if (!pos) return { bottom: '0', left: '0' } // Fallback
+    return { ...pos, transform: 'translateX(-50%)' }
+  }
   
   const getRoundName = () => {
     if (state.phase === 'group') return `Group Stage - Matchday ${state.matchday}`
@@ -337,15 +435,67 @@ const WorldCupHub = ({ state, onPlayFixture, onAdvance, onSave, onLoad }) => {
   )
 
   const renderTactics = () => (
-    <section className="worldcup-hub__card">
-      <h2>Tactics</h2>
-      <div className="tactics-board">
-        <p>Current Formation: <strong>{state.tactics?.formation || '4-3-3'}</strong></p>
-        <p>Play Style: <strong>{state.tactics?.style || 'Balanced'}</strong></p>
-        <div className="tactics-visual">
-           <div className="pitch-placeholder">
-             [Tactical Pitch View]
-           </div>
+    <section className="worldcup-hub__tactics-section">
+      <div className="tactics-header">
+        <h2>Tactical Setup</h2>
+        <div className="formation-select">
+          <label>Formation</label>
+          <select 
+            value={state.tactics?.formation || '4-3-3'}
+            onChange={(e) => {
+              const newFormation = e.target.value
+              const updatedUserTeam = { ...state.userTeam, formation: newFormation }
+              const updatedTeamsLookup = { ...state.teamsLookup, [state.userTeam.name]: updatedUserTeam }
+              onUpdateState({
+                ...state,
+                tactics: { ...state.tactics, formation: newFormation },
+                userTeam: updatedUserTeam,
+                teamsLookup: updatedTeamsLookup
+              })
+            }}
+          >
+            {Object.keys(FORMATIONS).map(key => (
+              <option key={key} value={key}>{FORMATION_LABELS[key] || key}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <div className="tactics-layout">
+        <div className="squad-list">
+          <h3>Bench & Reserves</h3>
+          {getBench().map((player, idx) => (
+            <div 
+              key={player.id} 
+              className={`squad-item ${selectedPlayer?.player.id === player.id ? 'selected' : ''}`}
+              onClick={() => handlePlayerClick(player, idx, true)}
+            >
+              <span className="squad-item-pos">{player.position}</span>
+              <span className="squad-item-name">{player.name}</span>
+              <span className="squad-item-rating">{player.rating}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="pitch-container">
+          {getLineup().map((player, idx) => {
+            const coords = getFormationCoords(state.tactics?.formation || '4-3-3', idx)
+            return (
+              <div 
+                key={player.id}
+                className={`pitch-player ${selectedPlayer?.player.id === player.id ? 'selected' : ''}`}
+                style={coords}
+                onClick={() => handlePlayerClick(player, idx, false)}
+              >
+                <div className="player-dot">
+                  {player.rating}
+                </div>
+                <div className="player-name">
+                  {player.name} <span style={{color: '#38ffb5'}}>({player.position})</span>
+                </div>
+              </div>
+            )
+          })}
         </div>
       </div>
     </section>

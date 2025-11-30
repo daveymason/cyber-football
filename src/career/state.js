@@ -200,7 +200,7 @@ export const simulateMatchdayOtherGames = (state) => {
     )
 
     roundFixtures.forEach(fixture => {
-      const result = simulateMatch(next, fixture.home, fixture.away)
+      const result = simulateMatch(next, fixture.home, fixture.away, true)
       fixture.status = 'played'
       fixture.score = result.score
       pendingResults.push({ ...fixture, score: result.score })
@@ -320,13 +320,23 @@ const buildGroupStandings = (groups) => {
   return standings
 }
 
-const simulateMatch = (state, home, away) => {
+const simulateMatch = (state, home, away, isKnockout = false) => {
   const homeBias = focusWeight(state, home)
   const awayBias = focusWeight(state, away)
   const fatigueHome = (state.fatigue[home] ?? 0) / 100
   const fatigueAway = (state.fatigue[away] ?? 0) / 100
-  const homeScore = Math.max(0, Math.round((Math.random() * 2.5 + homeBias - fatigueHome) * 1.2))
-  const awayScore = Math.max(0, Math.round((Math.random() * 2.3 + awayBias - fatigueAway) * 1.1))
+  let homeScore = Math.max(0, Math.round((Math.random() * 2.5 + homeBias - fatigueHome) * 1.2))
+  let awayScore = Math.max(0, Math.round((Math.random() * 2.3 + awayBias - fatigueAway) * 1.1))
+  
+  if (isKnockout && homeScore === awayScore) {
+    // Simple penalty shootout simulation: force a winner
+    if (Math.random() > 0.5) {
+      homeScore += 1
+    } else {
+      awayScore += 1
+    }
+  }
+
   const injuries = []
   if (Math.random() < 0.15) {
     const injuredTeam = Math.random() > 0.5 ? home : away
